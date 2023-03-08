@@ -5,8 +5,9 @@
 #include "ChessEngineGame.h"
 
 #define MAX_LOADSTRING 100
+#define IDC_BUTTON 1001
 
-// Global Variables:
+// Global Variables: 
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
@@ -17,6 +18,13 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+void AddControls(HWND);
+void loadImages();
+
+
+HWND hButton, hLayout;
+HBITMAP hBoardImage;
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -25,7 +33,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+
     // TODO: Place code here.
+
+
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -122,9 +133,24 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
+{        
+
+
     switch (message)
     {
+
+    
+    case WM_CREATE:
+        
+        loadImages();
+        AddControls(hWnd);
+        
+        hButton = CreateWindowEx(WS_EX_CLIENTEDGE, L"BUTTON", L"StartGame",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            200, 100, 100, 60,
+            hWnd,
+            (HMENU) IDC_BUTTON, hInst, NULL);
+    
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -177,4 +203,16 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+
+void AddControls(HWND hWnd) {
+    //CreateWindowW(L"Static", L"Name", WS_VISIBLE | WS_CHILD, 100, 50, 98, 38, hWnd, NULL, NULL, NULL);
+    hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 350, 60, 100, 100, hWnd, NULL, NULL, NULL);
+    SendMessageW(hLayout, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) hBoardImage);
+}
+
+
+void loadImages() {
+    hBoardImage = (HBITMAP)LoadImageW(NULL, L"ChessLayout.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 }
