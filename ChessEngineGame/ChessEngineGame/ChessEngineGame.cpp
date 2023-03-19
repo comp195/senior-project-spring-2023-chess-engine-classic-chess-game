@@ -138,6 +138,42 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
+        
+    case WM_LBUTTONDOWN:
+    {
+        // extract coordinates of mouse when mouse is left clicked
+        int iPosX = LOWORD(lParam);
+        int iPosY = HIWORD(lParam);
+
+        // declaring an array of wide chars to hold the coordinates as string
+        wchar_t waCoord[20];
+
+        //print function that uses wide char string
+        wsprintf(waCoord, _T("(%i, %i)"), iPosX, iPosY);
+        //after the function call, the array Coord is filled with the coordinates
+
+        //corrdinate string is passed to the message box function to display
+        //will want to eventually eliminate this functionality 
+        ::MessageBox(hWnd, waCoord, _T("LMB Click"), MB_OK);
+
+
+        //SetCapture(hWnd);
+
+
+
+        break;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     
     case WM_CREATE:
@@ -147,7 +183,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         
         hButton = CreateWindowEx(WS_EX_CLIENTEDGE, L"BUTTON", L"StartGame",
             WS_VISIBLE | WS_CHILD | ES_LEFT,
-            200, 100, 100, 60,
+            650, 100, 100, 60,
             hWnd,
             (HMENU) IDC_BUTTON, hInst, NULL);
     
@@ -208,7 +244,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 void AddControls(HWND hWnd) {
     //CreateWindowW(L"Static", L"Name", WS_VISIBLE | WS_CHILD, 100, 50, 98, 38, hWnd, NULL, NULL, NULL);
-    hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 350, 60, 100, 100, hWnd, NULL, NULL, NULL);
+    hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 0, 0, 100, 100, hWnd, NULL, NULL, NULL);
     SendMessageW(hLayout, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) hBoardImage);
 }
 
