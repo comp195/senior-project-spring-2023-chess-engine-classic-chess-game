@@ -7,6 +7,12 @@
 #define MAX_LOADSTRING 100
 #define IDC_BUTTON 1001
 
+
+
+//each sduare is 100 pixels
+const int SpaceSize = 80;
+
+
 // Global Variables: 
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -22,8 +28,8 @@ void AddControls(HWND);
 void loadImages();
 
 
-HWND hButton, hLayout;
-HBITMAP hBoardImage;
+HWND hButton, hLayout, hKing;
+HBITMAP hBoardImage, hKingImage;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -122,6 +128,37 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
+
+void DrawBoard(HDC hdc)
+{
+    HPEN hPenOld;
+    HPEN hLinePen;
+    COLORREF qLineColor;
+    qLineColor = RGB(8, 25, 10);
+    hLinePen = CreatePen(PS_SOLID, 1, qLineColor);
+    hPenOld = (HPEN)SelectObject(hdc, hLinePen);
+
+    MoveToEx(hdc, 8 * SpaceSize, 0, NULL);
+    LineTo(hdc, 8 * SpaceSize, 8 * SpaceSize);
+    MoveToEx(hdc, 0, 8 * SpaceSize, NULL);
+    LineTo(hdc, 8 * SpaceSize, 8 * SpaceSize);
+
+    for (int iX = SpaceSize; iX < 8 * SpaceSize; iX += SpaceSize) {
+        MoveToEx(hdc, iX, 0, NULL);
+        LineTo(hdc, iX, 8 * SpaceSize);
+   }
+
+    for (int iY = SpaceSize; iY < 8 * SpaceSize; iY += SpaceSize) {
+        MoveToEx(hdc, 0, iY, NULL);
+        LineTo(hdc, 8 * SpaceSize, iY);
+    }
+
+    SelectObject(hdc, hPenOld);
+    DeleteObject(hLinePen);
+
+}
+
+
 //
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -145,6 +182,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         int iPosX = LOWORD(lParam);
         int iPosY = HIWORD(lParam);
 
+        
         // declaring an array of wide chars to hold the coordinates as string
         wchar_t waCoord[20];
 
@@ -156,26 +194,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //will want to eventually eliminate this functionality 
         ::MessageBox(hWnd, waCoord, _T("LMB Click"), MB_OK);
 
-
-        //SetCapture(hWnd);
-
-
-
         break;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    
+ 
     case WM_CREATE:
         
         loadImages();
@@ -186,7 +208,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             650, 100, 100, 60,
             hWnd,
             (HMENU) IDC_BUTTON, hInst, NULL);
-    
+   
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -209,6 +231,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
+            DrawBoard(hdc);
             EndPaint(hWnd, &ps);
         }
         break;
@@ -243,12 +266,15 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 void AddControls(HWND hWnd) {
-    //CreateWindowW(L"Static", L"Name", WS_VISIBLE | WS_CHILD, 100, 50, 98, 38, hWnd, NULL, NULL, NULL);
-    hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 0, 0, 100, 100, hWnd, NULL, NULL, NULL);
-    SendMessageW(hLayout, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) hBoardImage);
+  //  hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 0, 0, 100, 100, hWnd, NULL, NULL, NULL);
+   // SendMessageW(hLayout, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) hBoardImage);
+
+    hKing = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 325, 2, 100, 100, hWnd, NULL, NULL, NULL);
+    SendMessageW(hKing, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hKingImage);
 }
 
 
 void loadImages() {
-    hBoardImage = (HBITMAP)LoadImageW(NULL, L"ChessLayout.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+//    hBoardImage = (HBITMAP)LoadImageW(NULL, L"ChessLayout.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+    hKingImage = (HBITMAP)LoadImageW(NULL, L"king.bmp", IMAGE_BITMAP, 75, 75, LR_LOADFROMFILE);
 }
