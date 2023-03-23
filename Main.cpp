@@ -103,7 +103,7 @@ void printBoard() {
 
 
 void movePawn(int x, int y, int a, int b) {
-  if (board[x][y] == WPawn) {    
+  if (board[x][y] == WPawn) {    //WHITE
     if (x == 6 && a == 4 && y == b && board[x-2][y] == empty && board[x-1][y] == empty) {  //checking for double first pawn move
       cout << "legal double move" << endl;
       board[a][b] = board[x][y];
@@ -113,17 +113,22 @@ void movePawn(int x, int y, int a, int b) {
       board[a][b] = board[x][y];
       board[x][y] = empty;
     }
-    else if ()
-  }
-  else {
-    if (x == 1) {
-      if (board[x+2][y] == empty && board[x+1][y] == empty) {
-        cout << "double move availible" << endl;
-        board[a][b] = board[x][y];
-        board[x][y] = empty;
-      }
+    else if ((b == y+1 || b == y-1) && board[a][b] > 6 && a == x-1) {  //pawn capture
+      board[a][b] = board[x][y];
+      board[x][y] = empty;
     }
-    else {
+  }
+  else {    //BLACK
+    if (x == 1 && a == 3 && y == b && board[x+2][y] == empty && board[x+1][y] == empty) {  //checking for double first pawn move
+      cout << "legal double move" << endl;
+      board[a][b] = board[x][y];
+      board[x][y] = empty;
+    }
+    else if (y == b && x+1 == a){      // checking for normal first pawn move
+      board[a][b] = board[x][y];
+      board[x][y] = empty;
+    }
+    else if ((b == y+1 || b == y-1) && board[a][b] < 6 && a == x+1) {  //pawn capture
       board[a][b] = board[x][y];
       board[x][y] = empty;
     }
