@@ -3,13 +3,14 @@
 
 #include "framework.h"
 #include "ChessEngineGame.h"
+#include <cmath>
 
 #define MAX_LOADSTRING 100
 #define IDC_BUTTON 1001
 
 
 
-//each sduare is 100 pixels
+//each square is 100 pixels
 const int SpaceSize = 80;
 
 
@@ -23,12 +24,13 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
+INT                 blackRook1_X, blackRook1_Y;
+BOOL                blackRook1_Exist;
 void AddControls(HWND);
 void loadImages();
 
 
-HWND hButton, hLayout, hKing;
+HWND hButton, hLayout, hKing, blackRook1;
 HBITMAP hBoardImage, hKingImage;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -175,25 +177,49 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
-        
+    
     case WM_LBUTTONDOWN:
     {
         // extract coordinates of mouse when mouse is left clicked
         int iPosX = LOWORD(lParam);
         int iPosY = HIWORD(lParam);
 
+        //IF the Black Rook does not exist, place it at location if inside of the board
+        if (!blackRook1_Exist && iPosX < SpaceSize*8 && iPosY < SpaceSize*8) {
+            iPosX = (round(iPosX / SpaceSize) * SpaceSize) + 5;
+            iPosY = (round(iPosY / SpaceSize) * SpaceSize) + 5;
+            blackRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                iPosX, iPosY, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            blackRook1_X = iPosX;
+            blackRook1_Y = iPosY;
+            blackRook1_Exist = true;
+            break;
+        }
+        // Check whether in image(piece) is selected by mouse click
+        // TODO replace with ButtonPress/Image
+        if (iPosX > blackRook1_X && iPosX < (blackRook1_X + 75) && iPosY > blackRook1_Y && iPosY < (blackRook1_Y + 75)){
+            DestroyWindow(blackRook1);
+            blackRook1_Exist = false;
+            break;
+        }
         
-        // declaring an array of wide chars to hold the coordinates as string
-        wchar_t waCoord[20];
 
-        //print function that uses wide char string
-        wsprintf(waCoord, _T("(%i, %i)"), iPosX, iPosY);
-        //after the function call, the array Coord is filled with the coordinates
 
-        //corrdinate string is passed to the message box function to display
-        //will want to eventually eliminate this functionality 
-        ::MessageBox(hWnd, waCoord, _T("LMB Click"), MB_OK);
 
+            // declaring an array of wide chars to hold the coordinates as string
+            wchar_t waCoord[20];
+
+            //print function that uses wide char string
+            wsprintf(waCoord, _T("(%i, %i)"), iPosX, iPosY);
+            //after the function call, the array Coord is filled with the coordinates
+
+            //corrdinate string is passed to the message box function to display
+            //will want to eventually eliminate this functionality 
+            ::MessageBox(hWnd, waCoord, _T("LMB Click"), MB_OK);
+        
         break;
     }
 
@@ -208,6 +234,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             650, 100, 100, 60,
             hWnd,
             (HMENU) IDC_BUTTON, hInst, NULL);
+        
+        //Creation of Black Rook Standin
+        //TODO Replace with image, cause I can't git images to work rn
+        blackRook1_X = 5;
+        blackRook1_Y = 5;
+        blackRook1_Exist = true;
+        blackRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackRook1_X, blackRook1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
    
     case WM_COMMAND:
         {
