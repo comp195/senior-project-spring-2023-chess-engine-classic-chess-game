@@ -10,7 +10,7 @@
 
 
 
-//each square is 100 pixels
+//each square is 80 pixels
 const int SpaceSize = 80;
 
 
@@ -24,13 +24,22 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-INT                 blackRook1_X, blackRook1_Y;
-BOOL                blackRook1_Exist;
+INT                 blackRook1_X, blackRook1_Y, blackKnight1_X, blackKnight1_Y, blackBishop1_Y, blackBishop1_X,
+                    blackKing_X, blackKing_Y, blackQueen_X, blackQueen_Y,
+                    blackRook2_X, blackRook2_Y, blackKnight2_X, blackKnight2_Y, blackBishop2_Y, blackBishop2_X,
+                    blackPawn1_X, blackPawn1_Y, blackPawn2_X, blackPawn2_Y, blackPawn3_X, blackPawn3_Y, blackPawn4_X, blackPawn4_Y,
+                    blackPawn5_X, blackPawn5_Y, blackPawn6_X, blackPawn6_Y, blackPawn7_X, blackPawn7_Y, blackPawn8_X, blackPawn8_Y;
+
+BOOL                blackRook1_Exist, blackKnight1_Exist, blackBishop1_Exist, 
+                    blackKing_Exist, blackQueen_Exist,
+                    blackRook2_Exist, blackKnight2_Exist, blackBishop2_Exist, blackPawn1_Exist, blackPawn2_Exist, blackPawn3_Exist,
+                    blackPawn4_Exist, blackPawn5_Exist, blackPawn6_Exist, blackPawn7_Exist, blackPawn8_Exist;
 void AddControls(HWND);
 void loadImages();
 
 
-HWND hButton, hLayout, hKing, blackRook1;
+HWND hButton, hLayout, hKing, blackRook1, blackKnight1, blackBishop1, blackRook2, blackKnight2, blackBishop2, blackKing, blackQueen,
+     blackPawn1, blackPawn2, blackPawn3, blackPawn4, blackPawn5, blackPawn6, blackPawn7, blackPawn8;
 HBITMAP hBoardImage, hKingImage;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -204,6 +213,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             DestroyWindow(blackRook1);
             blackRook1_Exist = false;
             break;
+
+            /*
+
+
+            if (!blackKing_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+                iPosX = (round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = (round(iPosY / SpaceSize) * SpaceSize) + 5;
+                blackRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B KING",
+                    WS_VISIBLE | WS_CHILD | ES_LEFT,
+                    iPosX, iPosY, 70, 70,
+                    hWnd,
+                    (HMENU)IDC_BUTTON, hInst, NULL);
+                blackKing_X = iPosX;
+                blackKing_Y = iPosY;
+                blackKing_Exist = true;
+                break;
+            }
+            */
+
+
+
+
         }
         
 
@@ -240,11 +271,172 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         blackRook1_X = 5;
         blackRook1_Y = 5;
         blackRook1_Exist = true;
-        blackRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK",
+        blackRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK1",
             WS_VISIBLE | WS_CHILD | ES_LEFT,
             blackRook1_X, blackRook1_Y, 70, 70,
             hWnd,
             (HMENU)IDC_BUTTON, hInst, NULL);
+
+
+
+
+        blackKnight1_X = 85;
+        blackKnight1_Y = 5;
+        blackKnight1_Exist = true;
+        blackKnight1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B KNIGHT1",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackKnight1_X, blackKnight1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackBishop1_X = 165;
+        blackBishop1_Y = 5;
+        blackBishop1_Exist = true;
+        blackBishop1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B BISHOP1",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackBishop1_X, blackBishop1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+
+        //king and queen go here
+        blackKing_X = 245;
+        blackKing_Y = 5;
+        blackKing_Exist = true;
+        blackKing = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B KING",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackKing_X, blackKing_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackQueen_X = 325;
+        blackQueen_Y = 5;
+        blackQueen_Exist = true;
+        blackQueen = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B Queen",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackQueen_X, blackQueen_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+
+
+
+
+
+
+        blackBishop2_X = 405;
+        blackBishop2_Y = 5;
+        blackBishop2_Exist = true;
+        blackBishop2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B BISHOP2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackBishop2_X, blackBishop2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+
+        blackRook2_X = 485;
+        blackRook2_Y = 5;
+        blackRook2_Exist = true;
+        blackRook2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackRook2_X, blackRook2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+
+
+
+        blackKnight2_X = 565;
+        blackKnight2_Y = 5;
+        blackKnight2_Exist = true;
+        blackKnight2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B KNIGHT2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackKnight2_X, blackKnight2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+
+
+
+
+
+        blackPawn1_X = 5;
+        blackPawn1_Y = 85;
+        blackPawn1_Exist = true;
+        blackPawn1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN1",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn1_X, blackPawn1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackPawn2_X = 85;
+        blackPawn2_Y = 85;
+        blackPawn2_Exist = true;
+        blackPawn2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn2_X, blackPawn2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackPawn3_X = 165;
+        blackPawn3_Y = 85;
+        blackPawn3_Exist = true;
+        blackPawn3 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN3",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn3_X, blackPawn3_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackPawn4_X = 245;
+        blackPawn4_Y = 85;
+        blackPawn4_Exist = true;
+        blackPawn4 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN4",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn4_X, blackPawn4_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackPawn5_X = 325;
+        blackPawn5_Y = 85;
+        blackPawn5_Exist = true;
+        blackPawn5 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN5",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn5_X, blackPawn5_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackPawn6_X = 405;
+        blackPawn6_Y = 85;
+        blackPawn6_Exist = true;
+        blackPawn6 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN6",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn6_X, blackPawn6_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackPawn7_X = 485;
+        blackPawn7_Y = 85;
+        blackPawn7_Exist = true;
+        blackPawn7 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN7",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn7_X, blackPawn7_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        blackPawn8_X = 565;
+        blackPawn8_Y = 85;
+        blackPawn8_Exist = true;
+        blackPawn8 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B PAWN8",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackPawn8_X, blackPawn8_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+
+
+
+
+
    
     case WM_COMMAND:
         {
@@ -306,12 +498,12 @@ void AddControls(HWND hWnd) {
     hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 0, 0, 100, 100, hWnd, NULL, NULL, NULL);
     SendMessageW(hLayout, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) hBoardImage);
 
-    hKing = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 325, 2, 100, 100, hWnd, NULL, NULL, NULL);
+    hKing = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 400, 2, 100, 100, hWnd, NULL, NULL, NULL);
     SendMessageW(hKing, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hKingImage);
 }
 
 
 void loadImages() {
     hBoardImage = (HBITMAP)LoadImageW(NULL, L"ChessLayout.bmp", IMAGE_BITMAP, 645, 645, LR_LOADFROMFILE);
-    hKingImage = (HBITMAP)LoadImageW(NULL, L"king.bmp", IMAGE_BITMAP, 75, 75, LR_LOADFROMFILE);
+    hKingImage = (HBITMAP)LoadImageW(NULL, L"queen2.bmp", IMAGE_BITMAP, 75, 75, LR_LOADFROMFILE);
 }

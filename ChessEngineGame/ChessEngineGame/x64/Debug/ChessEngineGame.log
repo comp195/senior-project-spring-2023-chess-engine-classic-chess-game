@@ -1,4 +1,4 @@
 ﻿  ChessEngineGame.cpp
-C:\Users\thera\source\repos\senior-project-spring-2023-chess-engine-classic-chess-game\ChessEngineGame\ChessEngineGame\ChessEngineGame.cpp(189,60): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\thera\source\repos\senior-project-spring-2023-chess-engine-classic-chess-game\ChessEngineGame\ChessEngineGame\ChessEngineGame.cpp(190,60): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\thera\source\repos\senior-project-spring-2023-chess-engine-classic-chess-game\ChessEngineGame\ChessEngineGame\ChessEngineGame.cpp(198,60): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\thera\source\repos\senior-project-spring-2023-chess-engine-classic-chess-game\ChessEngineGame\ChessEngineGame\ChessEngineGame.cpp(199,60): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   ChessEngineGame.vcxproj -> C:\Users\thera\source\repos\senior-project-spring-2023-chess-engine-classic-chess-game\ChessEngineGame\x64\Debug\ChessEngineGame.exe
