@@ -195,15 +195,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         //IF the Black Rook does not exist, place it at location if inside of the board
         if (!blackRook1_Exist && iPosX < SpaceSize*8 && iPosY < SpaceSize*8) {
-            iPosX = (round(iPosX / SpaceSize) * SpaceSize) + 5;
-            iPosY = (round(iPosY / SpaceSize) * SpaceSize) + 5;
+            //HERE we can Submit Move using Original X = round(blackRook1_X / SpaceSize), Future X = round(iPosX / SpaceSize), and same for Y
+            if(/*If move is possible*/true){
+                iPosX = (round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = (round(iPosY / SpaceSize) * SpaceSize) + 5;
+                blackRook1_X = iPosX;
+                blackRook1_Y = iPosY;
+            }
             blackRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK",
                 WS_VISIBLE | WS_CHILD | ES_LEFT,
-                iPosX, iPosY, 70, 70,
+                blackRook1_X, blackRook1_Y, 70, 70,
                 hWnd,
                 (HMENU)IDC_BUTTON, hInst, NULL);
-            blackRook1_X = iPosX;
-            blackRook1_Y = iPosY;
             blackRook1_Exist = true;
             break;
         }
@@ -312,7 +315,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         blackQueen_X = 325;
         blackQueen_Y = 5;
         blackQueen_Exist = true;
-        blackQueen = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B Queen",
+        blackQueen = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B QUEEN",
             WS_VISIBLE | WS_CHILD | ES_LEFT,
             blackQueen_X, blackQueen_Y, 70, 70,
             hWnd,
@@ -334,7 +337,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             (HMENU)IDC_BUTTON, hInst, NULL);
 
 
-        blackRook2_X = 485;
+        blackRook2_X = 565;
         blackRook2_Y = 5;
         blackRook2_Exist = true;
         blackRook2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK2",
@@ -346,7 +349,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 
-        blackKnight2_X = 565;
+        blackKnight2_X = 485;
         blackKnight2_Y = 5;
         blackKnight2_Exist = true;
         blackKnight2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B KNIGHT2",
