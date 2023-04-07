@@ -15,4 +15,4 @@ void moveBishop(int x, int y, int a, int b, int board[][8]);
 void moveRook(int x, int y, int a, int b, int board[][8]);
 void moveKing(int x, int y, int a, int b, int board[][8]);
 
-void checkTiles(int board[][8]);
+//void checkTiles(int board[][8]);
