@@ -93,6 +93,8 @@ void printBoard(int board[][8]) {
 
 void chooseMove(int board[][8]) {
     int x, y, a, b;
+    bool result = false;
+  
     cin >> x;
     cin >> y;
     cin >> a;
@@ -103,51 +105,57 @@ void chooseMove(int board[][8]) {
         cout << "Invalid Piece" << endl;
         break;
     case WPawn:
-        movePawn(x, y, a, b, board);
+        result = movePawn(x, y, a, b, board);
         break;
     case BPawn:
-        movePawn(x, y, a, b, board);
+        result = movePawn(x, y, a, b, board);
         break;
     case WKnight:
-        moveKnight(x, y, a, b, board);
+        result = moveKnight(x, y, a, b, board);
         break;
     case BKnight:
-        moveKnight(x, y, a, b, board);
+        result = moveKnight(x, y, a, b, board);
         break;
     case WBishop:
-        moveBishop(x, y, a, b, board);
+        result = moveBishop(x, y, a, b, board);
         break;
     case BBishop:
-        moveBishop(x, y, a, b, board);
+        result = moveBishop(x, y, a, b, board);
         break;
     case WRook:
-        moveRook(x, y, a, b, board);
+        result = moveRook(x, y, a, b, board);
         break;
     case BRook:
-        moveRook(x, y, a, b, board);
+        result = moveRook(x, y, a, b, board);
         break;
     case WQueen:
-        moveBishop(x, y, a, b, board);
-        moveRook(x, y, a, b, board);
+        result = moveBishop(x, y, a, b, board);
+        if (result == false) { 
+          result = moveRook(x, y, a, b, board);
+        }
         break;
     case BQueen:
-        moveBishop(x, y, a, b, board);
-        moveRook(x, y, a, b, board);
+        result = moveBishop(x, y, a, b, board);
+        if (result == false) { 
+          result = moveRook(x, y, a, b, board);
+        }
         break;
     case WKing:
-        moveKing(x, y, a, b, board);
+        result = moveKing(x, y, a, b, board);
         break;
     case BKing:
-        moveKing(x, y, a, b, board);
+        result = moveKing(x, y, a, b, board);
         break;
     }
-
+  
+    //cout << result << endl;
+  
     //checkTiles(board);
 
 }
 
 int main() {
-    int board[8][8];
+  int board[8][8];
     setPawns(board);
     setNonPawns(board);
     setBlank(board);
