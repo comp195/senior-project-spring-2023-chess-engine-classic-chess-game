@@ -308,7 +308,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             blackBishop2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B BISHOP2",
                 WS_VISIBLE | WS_CHILD | ES_LEFT,
-                blackBishop2_Y, blackBishop2_Y, 70, 70,
+                blackBishop2_X, blackBishop2_Y, 70, 70,
                 hWnd,
                 (HMENU)IDC_BUTTON, hInst, NULL);
             blackBishop2_Exist = true;
@@ -644,7 +644,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
             whiteBishop2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W BISHOP2",
                 WS_VISIBLE | WS_CHILD | ES_LEFT,
-                whiteBishop2_Y, whiteBishop2_Y, 70, 70,
+                whiteBishop2_X, whiteBishop2_Y, 70, 70,
                 hWnd,
                 (HMENU)IDC_BUTTON, hInst, NULL);
             whiteBishop2_Exist = true;
