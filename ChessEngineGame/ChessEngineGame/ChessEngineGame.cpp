@@ -5,8 +5,6 @@
 #include "ChessEngineGame.h"
 #include "header1.h"
 #include <cmath>
-#include <iostream>
-using namespace std;
 
 #define MAX_LOADSTRING 100
 #define IDC_BUTTON 1001
@@ -37,7 +35,7 @@ INT                 blackRook1_X, blackRook1_Y, blackKnight1_X, blackKnight1_Y, 
                     whiteKing_X, whiteKing_Y, whiteQueen_X, whiteQueen_Y,
                     whiteRook2_X, whiteRook2_Y, whiteKnight2_X, whiteKnight2_Y, whiteBishop2_Y, whiteBishop2_X,
                     whitePawn1_X, whitePawn1_Y, whitePawn2_X, whitePawn2_Y, whitePawn3_X, whitePawn3_Y, whitePawn4_X, whitePawn4_Y,
-                    whitePawn5_X, whitePawn5_Y, whitePawn6_X, whitePawn6_Y, whitekPawn7_X, whitePawn7_Y, whitePawn8_X, whitePawn8_Y;
+                    whitePawn5_X, whitePawn5_Y, whitePawn6_X, whitePawn6_Y, whitePawn7_X, whitePawn7_Y, whitePawn8_X, whitePawn8_Y;
 
 BOOL                blackRook1_Exist, blackKnight1_Exist, blackBishop1_Exist, 
                     blackKing_Exist, blackQueen_Exist,
@@ -54,7 +52,8 @@ bool chooseMove(int, int, int, int, int[][8]);
 INT board[8][8];
 
 HWND hButton, hLayout, hKing, blackRook1, blackKnight1, blackBishop1, blackRook2, blackKnight2, blackBishop2, blackKing, blackQueen,
-     blackPawn1, blackPawn2, blackPawn3, blackPawn4, blackPawn5, blackPawn6, blackPawn7, blackPawn8;
+     blackPawn1, blackPawn2, blackPawn3, blackPawn4, blackPawn5, blackPawn6, blackPawn7, blackPawn8, whiteRook1, whiteKnight1, whiteBishop1, whiteRook2, whiteKnight2, whiteBishop2, whiteKing, whiteQueen,
+    whitePawn1, whitePawn2, whitePawn3, whitePawn4, whitePawn5, whitePawn6, whitePawn7, whitePawn8;
 HBITMAP hBoardImage, hKingImage;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -209,7 +208,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         int iPosX = LOWORD(lParam);
         int iPosY = HIWORD(lParam);
 
-        //If the Black Rook1 does not exist, place it at location if inside of the board
+        //If the piece does not exist, place it at location if inside of the board
         if (!blackRook1_Exist && iPosX < SpaceSize*8 && iPosY < SpaceSize*8) {
             int xPos = int(round(iPosX / SpaceSize));
             int yPos = int(round(iPosY / SpaceSize));
@@ -231,8 +230,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             blackRook1_Exist = true;
             break;
         }
-  
-        //If the Black Rook2 does not exist, place it at location if inside of the board
         if (!blackRook2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
             int xPos = int(round(iPosX / SpaceSize));
             int yPos = int(round(iPosY / SpaceSize));
@@ -548,6 +545,342 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             blackPawn8_Exist = true;
             break;
         }
+        if (!whiteRook1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteRook1_X - 5) / 80);
+            int yOri = ((whiteRook1_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteRook1_X = iPosX;
+                whiteRook1_Y = iPosY;
+            }
+            whiteRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W ROOK1",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteRook1_X, whiteRook1_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteRook1_Exist = true;
+            break;
+        }
+        if (!whiteRook2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteRook2_X - 5) / 80);
+            int yOri = ((whiteRook2_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteRook2_X = iPosX;
+                whiteRook2_Y = iPosY;
+            }
+            whiteRook2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W ROOK2",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteRook2_X, whiteRook2_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteRook2_Exist = true;
+            break;
+        }
+        if (!whiteKnight2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteKnight2_X - 5) / 80);
+            int yOri = ((whiteKnight2_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteKnight2_X = iPosX;
+                whiteKnight2_Y = iPosY;
+            }
+            whiteKnight2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KNIGHT2",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteKnight2_X, whiteKnight2_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteKnight2_Exist = true;
+            break;
+        }
+        if (!whiteKnight1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteKnight1_X - 5) / 80);
+            int yOri = ((whiteKnight1_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteKnight1_X = iPosX;
+                whiteKnight1_Y = iPosY;
+            }
+            whiteKnight1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KNIGHT1",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteKnight1_X, whiteKnight1_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteKnight1_Exist = true;
+            break;
+        }
+        if (!whiteBishop2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteBishop2_X - 5) / 80);
+            int yOri = ((whiteBishop2_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteBishop2_X = iPosX;
+                whiteBishop2_Y = iPosY;
+            }
+            whiteBishop2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W BISHOP2",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteBishop2_Y, whiteBishop2_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteBishop2_Exist = true;
+            break;
+        }
+        if (!whiteBishop1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteBishop1_X - 5) / 80);
+            int yOri = ((whiteBishop1_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteBishop1_X = iPosX;
+                whiteBishop1_Y = iPosY;
+            }
+            whiteBishop1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W BISHOP1",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteBishop1_X, whiteBishop1_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteBishop1_Exist = true;
+            break;
+        }
+        if (!whiteKing_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteKing_X - 5) / 80);
+            int yOri = ((whiteKing_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteKing_X = iPosX;
+                whiteKing_Y = iPosY;
+            }
+            whiteKing = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KING",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteKing_X, whiteKing_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteKing_Exist = true;
+            break;
+        }
+        if (!whiteQueen_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whiteQueen_X - 5) / 80);
+            int yOri = ((whiteQueen_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whiteQueen_X = iPosX;
+                whiteQueen_Y = iPosY;
+            }
+            whiteQueen = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W QUEEN",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whiteQueen_X, whiteQueen_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whiteQueen_Exist = true;
+            break;
+        }
+        if (!whitePawn1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn1_X - 5) / 80);
+            int yOri = ((whitePawn1_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn1_X = iPosX;
+                whitePawn1_Y = iPosY;
+            }
+            whitePawn1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN1",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn1_X, whitePawn1_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn1_Exist = true;
+            break;
+        }
+        if (!whitePawn2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn2_X - 5) / 80);
+            int yOri = ((whitePawn2_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn2_X = iPosX;
+                whitePawn2_Y = iPosY;
+            }
+            whitePawn2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN2",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn2_X, whitePawn2_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn2_Exist = true;
+            break;
+        }
+        if (!whitePawn3_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn3_X - 5) / 80);
+            int yOri = ((whitePawn3_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn3_X = iPosX;
+                whitePawn3_Y = iPosY;
+            }
+            whitePawn3 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN3",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn3_X, whitePawn3_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn3_Exist = true;
+            break;
+        }
+        if (!whitePawn4_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn4_X - 5) / 80);
+            int yOri = ((whitePawn4_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn4_X = iPosX;
+                whitePawn4_Y = iPosY;
+            }
+            whitePawn4 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN4",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn4_X, whitePawn4_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn4_Exist = true;
+            break;
+        }
+        if (!whitePawn5_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn5_X - 5) / 80);
+            int yOri = ((whitePawn5_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn5_X = iPosX;
+                whitePawn5_Y = iPosY;
+            }
+            whitePawn5 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN5",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn5_X, whitePawn5_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn5_Exist = true;
+            break;
+        }
+        if (!whitePawn6_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn6_X - 5) / 80);
+            int yOri = ((whitePawn6_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn6_X = iPosX;
+                whitePawn6_Y = iPosY;
+            }
+            whitePawn6 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN6",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn6_X, whitePawn6_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn6_Exist = true;
+            break;
+        }
+        if (!whitePawn7_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn7_X - 5) / 80);
+            int yOri = ((whitePawn7_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn7_X = iPosX;
+                whitePawn7_Y = iPosY;
+            }
+            whitePawn7 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN7",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn7_X, whitePawn7_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn7_Exist = true;
+            break;
+        }
+        if (!whitePawn8_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+            int xPos = int(round(iPosX / SpaceSize));
+            int yPos = int(round(iPosY / SpaceSize));
+            int xOri = ((whitePawn8_X - 5) / 80);
+            int yOri = ((whitePawn8_Y - 5) / 80);
+            if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                board[xPos][yPos] = board[xOri][yOri];
+                board[xOri][yOri] = blank;
+                iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                whitePawn8_X = iPosX;
+                whitePawn8_Y = iPosY;
+            }
+            whitePawn8 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN8",
+                WS_VISIBLE | WS_CHILD | ES_LEFT,
+                whitePawn8_X, whitePawn8_Y, 70, 70,
+                hWnd,
+                (HMENU)IDC_BUTTON, hInst, NULL);
+            whitePawn8_Exist = true;
+            break;
+        }
 
 
 
@@ -633,6 +966,88 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             blackPawn8_Exist = false;
             break;
         }
+
+        if (iPosX > whiteRook2_X && iPosX < (whiteRook2_X + 75) && iPosY > whiteRook2_Y && iPosY < (whiteRook2_Y + 75)) {
+            DestroyWindow(whiteRook2);
+            whiteRook2_Exist = false;
+            break;
+        }
+        if (iPosX > whiteRook1_X && iPosX < (whiteRook1_X + 75) && iPosY > whiteRook1_Y && iPosY < (whiteRook1_Y + 75)) {
+            DestroyWindow(whiteRook1);
+            whiteRook1_Exist = false;
+            break;
+        }
+        if (iPosX > whiteKnight2_X && iPosX < (whiteKnight2_X + 75) && iPosY > whiteKnight2_Y && iPosY < (whiteKnight2_Y + 75)) {
+            DestroyWindow(whiteKnight2);
+            whiteKnight2_Exist = false;
+            break;
+        }
+        if (iPosX > whiteKnight1_X && iPosX < (whiteKnight1_X + 75) && iPosY > whiteKnight1_Y && iPosY < (whiteKnight1_Y + 75)) {
+            DestroyWindow(whiteKnight1);
+            whiteKnight1_Exist = false;
+            break;
+        }
+        if (iPosX > whiteBishop2_X && iPosX < (whiteBishop2_X + 75) && iPosY > whiteBishop2_Y && iPosY < (whiteBishop2_Y + 75)) {
+            DestroyWindow(whiteBishop2);
+            whiteBishop2_Exist = false;
+            break;
+        }
+        if (iPosX > whiteBishop1_X && iPosX < (whiteBishop1_X + 75) && iPosY > whiteBishop1_Y && iPosY < (whiteBishop1_Y + 75)) {
+            DestroyWindow(whiteBishop1);
+            whiteBishop1_Exist = false;
+            break;
+        }
+        if (iPosX > whiteKing_X && iPosX < (whiteKing_X + 75) && iPosY > whiteKing_Y && iPosY < (whiteKing_Y + 75)) {
+            DestroyWindow(whiteKing);
+            whiteKing_Exist = false;
+            break;
+        }
+        if (iPosX > whiteQueen_X && iPosX < (whiteQueen_X + 75) && iPosY > whiteQueen_Y && iPosY < (whiteQueen_Y + 75)) {
+            DestroyWindow(whiteQueen);
+            whiteQueen_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn1_X && iPosX < (whitePawn1_X + 75) && iPosY > whitePawn1_Y && iPosY < (whitePawn1_Y + 75)) {
+            DestroyWindow(whitePawn1);
+            whitePawn1_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn2_X && iPosX < (whitePawn2_X + 75) && iPosY > whitePawn2_Y && iPosY < (whitePawn2_Y + 75)) {
+            DestroyWindow(whitePawn2);
+            whitePawn2_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn3_X && iPosX < (whitePawn3_X + 75) && iPosY > whitePawn3_Y && iPosY < (whitePawn3_Y + 75)) {
+            DestroyWindow(whitePawn3);
+            whitePawn3_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn4_X && iPosX < (whitePawn4_X + 75) && iPosY > whitePawn4_Y && iPosY < (whitePawn4_Y + 75)) {
+            DestroyWindow(whitePawn4);
+            whitePawn4_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn5_X && iPosX < (whitePawn5_X + 75) && iPosY > whitePawn5_Y && iPosY < (whitePawn5_Y + 75)) {
+            DestroyWindow(whitePawn5);
+            whitePawn5_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn6_X && iPosX < (whitePawn6_X + 75) && iPosY > whitePawn6_Y && iPosY < (whitePawn6_Y + 75)) {
+            DestroyWindow(whitePawn6);
+            whitePawn6_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn7_X && iPosX < (whitePawn7_X + 75) && iPosY > whitePawn7_Y && iPosY < (whitePawn7_Y + 75)) {
+            DestroyWindow(whitePawn7);
+            whitePawn7_Exist = false;
+            break;
+        }
+        if (iPosX > whitePawn8_X && iPosX < (whitePawn8_X + 75) && iPosY > whitePawn8_Y && iPosY < (whitePawn8_Y + 75)) {
+            DestroyWindow(whitePawn8);
+            whitePawn8_Exist = false;
+            break;
+        }
+
         
 
 
@@ -657,11 +1072,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         loadImages();
         AddControls(hWnd);
        
-        
-
-        
-        
-        //Creation of Black Rook Standin
         //TODO Replace with image, cause I can't git images to work rn
         blackRook1_X = 5;
         blackRook1_Y = 5;
@@ -671,9 +1081,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             blackRook1_X, blackRook1_Y, 70, 70,
             hWnd,
             (HMENU)IDC_BUTTON, hInst, NULL);
-
-
-
         
         blackKnight1_X = 85;
         blackKnight1_Y = 5;
@@ -693,8 +1100,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             hWnd,
             (HMENU)IDC_BUTTON, hInst, NULL);
 
-
-        //king and queen go here
         blackKing_X = 325;
         blackKing_Y = 5;
         blackKing_Exist = true;
@@ -713,12 +1118,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             hWnd,
             (HMENU)IDC_BUTTON, hInst, NULL);
 
-
-
-
-
-
-
         blackBishop2_X = 405;
         blackBishop2_Y = 5;
         blackBishop2_Exist = true;
@@ -727,19 +1126,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             blackBishop2_X, blackBishop2_Y, 70, 70,
             hWnd,
             (HMENU)IDC_BUTTON, hInst, NULL);
-
-
-        blackRook2_X = 565;
-        blackRook2_Y = 5;
-        blackRook2_Exist = true;
-        blackRook2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK2",
-            WS_VISIBLE | WS_CHILD | ES_LEFT,
-            blackRook2_X, blackRook2_Y, 70, 70,
-            hWnd,
-            (HMENU)IDC_BUTTON, hInst, NULL);
-
-
-
 
         blackKnight2_X = 485;
         blackKnight2_Y = 5;
@@ -750,10 +1136,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             hWnd,
             (HMENU)IDC_BUTTON, hInst, NULL);
 
-
-
-
-
+        blackRook2_X = 565;
+        blackRook2_Y = 5;
+        blackRook2_Exist = true;
+        blackRook2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"B ROOK2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            blackRook2_X, blackRook2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
 
         blackPawn1_X = 5;
         blackPawn1_Y = 85;
@@ -827,7 +1217,149 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             hWnd,
             (HMENU)IDC_BUTTON, hInst, NULL);
         
+        whiteRook1_X = 5;
+        whiteRook1_Y = 565;
+        whiteRook1_Exist = true;
+        whiteRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W ROOK1",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteRook1_X, whiteRook1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
 
+        whiteKnight1_X = 85;
+        whiteKnight1_Y = 565;
+        whiteKnight1_Exist = true;
+        whiteKnight1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KNIGHT1",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteKnight1_X, whiteKnight1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whiteBishop1_X = 165;
+        whiteBishop1_Y = 565;
+        whiteBishop1_Exist = true;
+        whiteBishop1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W BISHOP1",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteBishop1_X, whiteBishop1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whiteKing_X = 325;
+        whiteKing_Y = 565;
+        whiteKing_Exist = true;
+        whiteKing = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KING",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteKing_X, whiteKing_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whiteQueen_X = 245;
+        whiteQueen_Y = 565;
+        whiteQueen_Exist = true;
+        whiteQueen = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W QUEEN",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteQueen_X, whiteQueen_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whiteBishop2_X = 405;
+        whiteBishop2_Y = 565;
+        whiteBishop2_Exist = true;
+        whiteBishop2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W BISHOP2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteBishop2_X, whiteBishop2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whiteKnight2_X = 485;
+        whiteKnight2_Y = 565;
+        whiteKnight2_Exist = true;
+        whiteKnight2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KNIGHT2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteKnight2_X, whiteKnight2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whiteRook2_X = 565;
+        whiteRook2_Y = 565;
+        whiteRook2_Exist = true;
+        whiteRook2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W ROOK2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whiteRook2_X, whiteRook2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn1_X = 5;
+        whitePawn1_Y = 485;
+        whitePawn1_Exist = true;
+        whitePawn1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN1",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn1_X, whitePawn1_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn2_X = 85;
+        whitePawn2_Y = 485;
+        whitePawn2_Exist = true;
+        whitePawn2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN2",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn2_X, whitePawn2_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn3_X = 165;
+        whitePawn3_Y = 485;
+        whitePawn3_Exist = true;
+        whitePawn3 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN3",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn3_X, whitePawn3_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn4_X = 245;
+        whitePawn4_Y = 485;
+        whitePawn4_Exist = true;
+        whitePawn4 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN4",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn4_X, whitePawn4_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn5_X = 325;
+        whitePawn5_Y = 485;
+        whitePawn5_Exist = true;
+        whitePawn5 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN5",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn5_X, whitePawn5_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn6_X = 405;
+        whitePawn6_Y = 485;
+        whitePawn6_Exist = true;
+        whitePawn6 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN6",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn6_X, whitePawn6_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn7_X = 485;
+        whitePawn7_Y = 485;
+        whitePawn7_Exist = true;
+        whitePawn7 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN7",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn7_X, whitePawn7_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
+
+        whitePawn8_X = 565;
+        whitePawn8_Y = 485;
+        whitePawn8_Exist = true;
+        whitePawn8 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN8",
+            WS_VISIBLE | WS_CHILD | ES_LEFT,
+            whitePawn8_X, whitePawn8_Y, 70, 70,
+            hWnd,
+            (HMENU)IDC_BUTTON, hInst, NULL);
 
 
 
