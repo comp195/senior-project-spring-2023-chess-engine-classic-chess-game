@@ -129,17 +129,20 @@
   <ItemGroup>
     <ClInclude Include="ChessEngineGame.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="header1.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngineGame.cpp" />
+    <ClCompile Include="move.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ChessEngineGame.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="ChessEngineGame.ico" />
+    <Image Include="ChessLayout.bmp" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
