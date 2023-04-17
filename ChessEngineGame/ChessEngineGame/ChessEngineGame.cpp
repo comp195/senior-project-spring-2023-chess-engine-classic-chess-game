@@ -9,13 +9,8 @@
 #define MAX_LOADSTRING 100
 #define IDC_BUTTON 1001
 
-#define GENERATE_BUTTON 4
-
-
-
 //each square is 80 pixels
 const int SpaceSize = 80;
-
 
 
 // Global Variables: 
@@ -72,7 +67,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // TODO: Place code here.
 
     setBoard(board);
-
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -154,7 +148,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-
    return TRUE;
 }
 
@@ -173,14 +166,6 @@ void DrawBoard(HDC hdc)
     MoveToEx(hdc, 0, 8 * SpaceSize, NULL);
     LineTo(hdc, 8 * SpaceSize, 8 * SpaceSize);
 
-
-
-
-
-
-
-
-
     for (int iX = SpaceSize; iX < 8 * SpaceSize; iX += SpaceSize) {
         MoveToEx(hdc, iX, 0, NULL);
         LineTo(hdc, iX, 8 * SpaceSize);
@@ -193,13 +178,6 @@ void DrawBoard(HDC hdc)
 
     SelectObject(hdc, hPenOld);
     DeleteObject(hLinePen);
-
-
-
-
-
-
-
 
 }
 
@@ -217,27 +195,11 @@ void DrawBoard(HDC hdc)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {        
 
-
-   
-
-
     switch (message)
     {
 
-
- 
-
-
     case WM_CREATE:
     {
-
-
-
-    
-
-
-
-
         //TODO Replace with image, cause I can't git images to work rn
         blackRook1_X = 5;
         blackRook1_Y = 5;
@@ -351,8 +313,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         blackPawn8 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn8_X, blackPawn8_Y, 70, 70, hWnd, NULL, NULL, NULL);
         SendMessageW(blackPawn8, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
 
-
-
         orangeRook1_X = 5;
         orangeRook1_Y = 565;
         orangeRook1_Exist = true;
@@ -462,25 +422,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         orangePawn8_Exist = true;
         orangePawn8 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn8_X, orangePawn8_Y, 70, 70, hWnd, NULL, NULL, NULL);
         SendMessageW(orangePawn8, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
-
-
-
-
-
-
-
-
-
-
-
     }
 
         case WM_LBUTTONDOWN:
         {
-
-
-
-
 
             // extract coordinates of mouse when mouse is left clicked
             int iPosX = LOWORD(lParam);
@@ -505,7 +450,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackRook1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackRook1_X, blackRook1_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackRook1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackRookImage);
                 blackRook1_Exist = true;
-
                 break;
             }
             if (!blackRook2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -526,7 +470,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackRook2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackRook2_X, blackRook2_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackRook2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackRookImage);
                 blackRook2_Exist = true;
-
                 break;
             }
             if (!blackKnight2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -546,7 +489,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackKnight2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackKnight2_X, blackKnight2_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackKnight2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackKnightImage);
                 blackKnight2_Exist = true;
-
                 break;
             }
             if (!blackKnight1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -565,7 +507,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 BlackKnightImage = (HBITMAP)LoadImageW(NULL, L"images/knightpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
                 blackKnight1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackKnight1_X, blackKnight1_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackKnight1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackKnightImage);
-
                 break;
             }
             if (!blackBishop2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -585,7 +526,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackBishop2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackBishop2_X, blackBishop2_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackBishop2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackBishopImage);
                 blackBishop2_Exist = true;
-
                 break;
             }
             if (!blackBishop1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -605,7 +545,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackBishop1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackBishop1_X, blackBishop1_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackBishop1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackBishopImage);
                 blackBishop1_Exist = true;
-
                 break;
             }
             if (!blackKing_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -625,7 +564,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackKing = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackKing_X, blackKing_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackKing, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackKingImage);
                 blackKing_Exist = true;
-
                 break;
             }
             if (!blackQueen_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -645,8 +583,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackQueen = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackQueen_X, blackQueen_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackQueen, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackQueenImage);
                 blackQueen_Exist = true;
-
-
                 break;
             }
             if (!blackPawn1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -666,7 +602,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn1_X, blackPawn1_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn1_Exist = true;
-
                 break;
             }
             if (!blackPawn2_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -686,8 +621,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn2_X, blackPawn2_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn2_Exist = true;
-
-
                 break;
             }
             if (!blackPawn3_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -707,8 +640,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn3 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn3_X, blackPawn3_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn3, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn3_Exist = true;
-
-
                 break;
             }
             if (!blackPawn4_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -728,8 +659,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn4 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn4_X, blackPawn4_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn4, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn4_Exist = true;
-
-
                 break;
             }
             if (!blackPawn5_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -749,8 +678,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn5 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn5_X, blackPawn5_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn5, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn5_Exist = true;
-
-
                 break;
             }
             if (!blackPawn6_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -770,8 +697,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn6 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn6_X, blackPawn6_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn6, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn6_Exist = true;
-
-
                 break;
             }
             if (!blackPawn7_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -791,8 +716,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn7 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn7_X, blackPawn7_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn7, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn7_Exist = true;
-
-
                 break;
             }
             if (!blackPawn8_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -807,27 +730,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
                     blackPawn8_X = iPosX;
                     blackPawn8_Y = iPosY;
-
-
-
                 }
                 BlackPawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
                 blackPawn8 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn8_X, blackPawn8_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn8, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
-           
-            
-                
-
-
                 blackPawn8_Exist = true;
-
-
-
-
-
                 break;
             }
-
 
 
             if (!orangeRook1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
@@ -1169,8 +1078,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
 
 
-
-
             // Check whether in image(piece) is selected by mouse click
             // TODO replace with ButtonPress/Image
             // Placeholder Destruction if ghost blank piece is in place, but does not fix issue due to overlapping)
@@ -1332,10 +1239,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (iPosX > orangePawn8_X && iPosX < (orangePawn8_X + 75) && iPosY > orangePawn8_Y && iPosY < (orangePawn8_Y + 75)) {
                 DestroyWindow(orangePawn8);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn8_Exist = false;
-
-
-
-
                 break;
             }
 
@@ -1359,8 +1262,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         }
 
-
-
            case WM_PAINT:
            {
                PAINTSTRUCT ps;
@@ -1370,36 +1271,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                DrawBoard(hdc);
                EndPaint(hWnd, &ps);
 
-
-
                hBoardImage = (HBITMAP)LoadImageW(NULL, L"ChessLayout.bmp", IMAGE_BITMAP, 645, 645, LR_LOADFROMFILE);
-               // hLayout = CreateWindowEx(NULL, L"STATIC", NULL, SS_BITMAP | WS_VISIBLE | WS_CHILD, 0, 00, 500, 600, hWnd, (HMENU)hLayout, GetModuleHandle(NULL), NULL);
                hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 0, 0, 100, 100, hWnd, NULL, NULL, NULL);
                SendMessageW(hLayout, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBoardImage);
                BringWindowToTop(hLayout);
-
-
-
-
-
-
            }
            break;
-
-
-
-
-
-
 
    
     case WM_COMMAND:
         {
-
-
-
-
-
             int wmId = LOWORD(wParam);
             // Parse the menu selections:
             switch (wmId)
@@ -1444,9 +1325,6 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
-
-
-
 
 
 
