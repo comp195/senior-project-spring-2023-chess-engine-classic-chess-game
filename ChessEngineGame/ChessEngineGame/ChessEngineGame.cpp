@@ -737,8 +737,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn8_Exist = true;
                 break;
             }
-
-
             if (!orangeRook1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
                 int xPos = int(round(iPosX / SpaceSize));
                 int yPos = int(round(iPosY / SpaceSize));
@@ -752,11 +750,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeRook1_X = iPosX;
                     orangeRook1_Y = iPosY;
                 }
-                orangeRook1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W ROOK1",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeRook1_X, orangeRook1_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+
+                OrangeRookImage = (HBITMAP)LoadImageW(NULL, L"images/rookorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeRook1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeRook1_X, orangeRook1_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeRook1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeRookImage);
                 orangeRook1_Exist = true;
                 break;
             }
@@ -773,11 +770,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeRook2_X = iPosX;
                     orangeRook2_Y = iPosY;
                 }
-                orangeRook2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W ROOK2",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeRook2_X, orangeRook2_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangeRookImage = (HBITMAP)LoadImageW(NULL, L"images/rookorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeRook2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeRook2_X, orangeRook2_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeRook2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeRookImage);
                 orangeRook2_Exist = true;
                 break;
             }
@@ -794,11 +789,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeKnight2_X = iPosX;
                     orangeKnight2_Y = iPosY;
                 }
-                orangeKnight2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KNIGHT2",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeKnight2_X, orangeKnight2_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangeKnightImage = (HBITMAP)LoadImageW(NULL, L"images/knightorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeKnight2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeKnight2_X, orangeKnight2_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeKnight2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeKnightImage);
                 orangeKnight2_Exist = true;
                 break;
             }
@@ -815,11 +808,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeKnight1_X = iPosX;
                     orangeKnight1_Y = iPosY;
                 }
-                orangeKnight1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KNIGHT1",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeKnight1_X, orangeKnight1_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangeKnightImage = (HBITMAP)LoadImageW(NULL, L"images/knightorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeKnight1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeKnight1_X, orangeKnight1_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeKnight1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeKnightImage);
                 orangeKnight1_Exist = true;
                 break;
             }
@@ -836,11 +827,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeBishop2_X = iPosX;
                     orangeBishop2_Y = iPosY;
                 }
-                orangeBishop2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W BISHOP2",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeBishop2_X, orangeBishop2_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangeBishopImage = (HBITMAP)LoadImageW(NULL, L"images/bishoporange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeBishop2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeBishop2_X, orangeBishop2_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeBishop2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeBishopImage);
                 orangeBishop2_Exist = true;
                 break;
             }
@@ -857,11 +846,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeBishop1_X = iPosX;
                     orangeBishop1_Y = iPosY;
                 }
-                orangeBishop1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W BISHOP1",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeBishop1_X, orangeBishop1_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangeBishopImage = (HBITMAP)LoadImageW(NULL, L"images/bishoporange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeBishop1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeBishop1_X, orangeBishop1_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeBishop1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeBishopImage);
                 orangeBishop1_Exist = true;
                 break;
             }
@@ -878,11 +865,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeKing_X = iPosX;
                     orangeKing_Y = iPosY;
                 }
-                orangeKing = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W KING",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeKing_X, orangeKing_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangeKingImage = (HBITMAP)LoadImageW(NULL, L"images/kingorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeKing = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeKing_X, orangeKing_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeKing, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeKingImage);
                 orangeKing_Exist = true;
                 break;
             }
@@ -899,11 +884,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangeQueen_X = iPosX;
                     orangeQueen_Y = iPosY;
                 }
-                orangeQueen = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W QUEEN",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangeQueen_X, orangeQueen_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangeQueenImage = (HBITMAP)LoadImageW(NULL, L"images/queenorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangeQueen = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangeQueen_X, orangeQueen_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangeQueen, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangeQueenImage);
                 orangeQueen_Exist = true;
                 break;
             }
@@ -920,11 +903,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn1_X = iPosX;
                     orangePawn1_Y = iPosY;
                 }
-                orangePawn1 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN1",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn1_X, orangePawn1_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn1 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn1_X, orangePawn1_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn1, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn1_Exist = true;
                 break;
             }
@@ -941,11 +922,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn2_X = iPosX;
                     orangePawn2_Y = iPosY;
                 }
-                orangePawn2 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN2",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn2_X, orangePawn2_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn2 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn2_X, orangePawn2_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn2, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn2_Exist = true;
                 break;
             }
@@ -962,11 +941,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn3_X = iPosX;
                     orangePawn3_Y = iPosY;
                 }
-                orangePawn3 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN3",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn3_X, orangePawn3_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn3 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn3_X, orangePawn3_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn3, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn3_Exist = true;
                 break;
             }
@@ -983,11 +960,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn4_X = iPosX;
                     orangePawn4_Y = iPosY;
                 }
-                orangePawn4 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN4",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn4_X, orangePawn4_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn4 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn4_X, orangePawn4_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn4, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn4_Exist = true;
                 break;
             }
@@ -1004,11 +979,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn5_X = iPosX;
                     orangePawn5_Y = iPosY;
                 }
-                orangePawn5 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN5",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn5_X, orangePawn5_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn5 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn5_X, orangePawn5_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn5, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn5_Exist = true;
                 break;
             }
@@ -1025,11 +998,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn6_X = iPosX;
                     orangePawn6_Y = iPosY;
                 }
-                orangePawn6 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN6",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn6_X, orangePawn6_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn6 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn6_X, orangePawn6_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn6, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn6_Exist = true;
                 break;
             }
@@ -1046,11 +1017,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn7_X = iPosX;
                     orangePawn7_Y = iPosY;
                 }
-                orangePawn7 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN7",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn7_X, orangePawn7_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn7 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn7_X, orangePawn7_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn7, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn7_Exist = true;
                 break;
             }
@@ -1067,12 +1036,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     orangePawn8_X = iPosX;
                     orangePawn8_Y = iPosY;
                 }
-                orangePawn8 = CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L"W PAWN8",
-                    WS_VISIBLE | WS_CHILD | ES_LEFT,
-                    orangePawn8_X, orangePawn8_Y, 70, 70,
-                    hWnd,
-                    (HMENU)IDC_BUTTON, hInst, NULL);
-                orangePawn7_Exist = true;
+                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                orangePawn8 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn8_X, orangePawn8_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                SendMessageW(orangePawn8, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
                 orangePawn8_Exist = true;
                 break;
             }
