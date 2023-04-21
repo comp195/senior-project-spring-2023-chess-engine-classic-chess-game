@@ -5,37 +5,23 @@ using namespace std;
 bool movePawn(int x, int y, int a, int b, int board[][8]) {
     if (board[x][y] == WPawn) {    //WHITE
         if (x == 6 && a == 4 && y == b && board[x - 2][y] == blank && board[x - 1][y] == blank) {  //checking for double first pawn move
-            cout << "legal double move" << endl;
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
         else if (y == b && x - 1 == a) {      // checking for normal first pawn move
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
         else if ((b == y + 1 || b == y - 1) && board[a][b] > 6 && a == x - 1) {  //pawn capture
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
     }
     else {    //BLACK
         if (x == 1 && a == 3 && y == b && board[x + 2][y] == blank && board[x + 1][y] == blank) {  //checking for double first pawn move
-            cout << "legal double move" << endl;
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
         else if (y == b && x + 1 == a) {      // checking for normal first pawn move
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
         else if ((b == y + 1 || b == y - 1) && board[a][b] < 6 && a == x + 1) {  //pawn capture
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
     }
@@ -44,26 +30,18 @@ bool movePawn(int x, int y, int a, int b, int board[][8]) {
 bool moveKnight(int x, int y, int a, int b, int board[][8]) {
     if (board[x][y] == WKnight && board[a][b] >= 6) {
         if ((a == x - 2 || a == x + 2) && (b == y - 1 || b == y + 1)) {
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
         else if ((b == y - 2 || b == y + 2) && (a == x - 1 || a == x + 1)) {
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
     }
 
     else if (board[x][y] == BKnight && board[a][b] <= 6) {
         if ((a == x - 2 || a == x + 2) && (b == y - 1 || b == y + 1)) {
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
         else if ((b == y - 2 || b == y + 2) && (a == x - 1 || a == x + 1)) {
-            board[a][b] = board[x][y];
-            board[x][y] = blank;
             return true;
         }
     }
@@ -81,8 +59,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -93,8 +69,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -105,8 +79,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -117,8 +89,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -131,8 +101,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -143,8 +111,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -155,8 +121,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -167,8 +131,6 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -187,8 +149,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -199,8 +159,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -211,8 +169,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -223,8 +179,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -237,8 +191,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -249,8 +201,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -261,8 +211,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -273,8 +221,6 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
                     }
                 }
                 if (posCheck != false) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
                     return true;
                 }
             }
@@ -282,19 +228,15 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
     }
 }
 
-bool moveKing(int x, int y, int a, int b, int board[][8]) {
-  if (board[x][y] == WKing && board[a][b] >= 6) {
-    if (abs(x-a) <= 1 && abs(y-b) <= 1) {
-      board[a][b] = board[x][y];
-      board[x][y] = blank;
-      return true;
+bool moveKing(int x, int y, int a, int b, int board[][8], int illigal[][8]) {
+    if (board[x][y] == WKing && board[a][b] >= 6) {
+        if (abs(x - a) <= 1 && abs(y - b) <= 1) {
+            return true;
+        }
     }
-  }
-  if (board[x][y] == BKing && board[a][b] <= 6) {
-    if (abs(x-a) <= 1 && abs(y-b) <= 1) {
-      board[a][b] = board[x][y];
-      board[x][y] = blank;
-      return true;
+    if (board[x][y] == BKing && board[a][b] <= 6) {
+        if (abs(x - a) <= 1 && abs(y - b) <= 1) {
+            return true;
+        }
     }
-  }
 }
