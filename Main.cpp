@@ -91,77 +91,212 @@ void printBoard(int board[][8]) {
     cout << endl;
 }
 
-void chooseMove(int board[][8]) {
-    int x, y, a, b;
+int chooseMove(int board[][8], int tempBoard[][8], int whiteDanger[][8], int blackDanger[][8], int turn) {
+    int x, y, a, b, BKingX, BKingY, WKingX, WKingY;
     bool result = false;
-  
+    bool gameOver = false;
+    bool check;
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            tempBoard[i][j] = board[i][j];
+        }
+    }
+
     cin >> x;
     cin >> y;
     cin >> a;
     cin >> b;
 
-    switch (board[x][y]) {
-    case blank:
-        cout << "Invalid Piece" << endl;
-        break;
-    case WPawn:
-        result = movePawn(x, y, a, b, board);
-        break;
-    case BPawn:
-        result = movePawn(x, y, a, b, board);
-        break;
-    case WKnight:
-        result = moveKnight(x, y, a, b, board);
-        break;
-    case BKnight:
-        result = moveKnight(x, y, a, b, board);
-        break;
-    case WBishop:
-        result = moveBishop(x, y, a, b, board);
-        break;
-    case BBishop:
-        result = moveBishop(x, y, a, b, board);
-        break;
-    case WRook:
-        result = moveRook(x, y, a, b, board);
-        break;
-    case BRook:
-        result = moveRook(x, y, a, b, board);
-        break;
-    case WQueen:
-        result = moveBishop(x, y, a, b, board);
-        if (result == false) { 
-          result = moveRook(x, y, a, b, board);
+    tempBoard[a][b] = tempBoard[x][y];
+    tempBoard[x][y] = blank;
+
+    checkTiles(tempBoard, whiteDanger, blackDanger);
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (tempBoard[i][j] == WKing) {
+                WKingX = i;
+                WKingY = j;
+            }
+            if (tempBoard[i][j] == BKing) {
+                BKingX = i;
+                BKingY = j;
+            }
         }
-        break;
-    case BQueen:
-        result = moveBishop(x, y, a, b, board);
-        if (result == false) { 
-          result = moveRook(x, y, a, b, board);
-        }
-        break;
-    case WKing:
-        result = moveKing(x, y, a, b, board);
-        break;
-    case BKing:
-        result = moveKing(x, y, a, b, board);
-        break;
     }
-  
-    //cout << result << endl;
-  
-    //checkTiles(board);
+
+    if (turn % 2 == 1) {        //White Move
+        if (blackDanger[WKingX][WKingY] == 1) {
+            cout << "White King In check" << endl;
+        }
+        else {
+            switch (board[x][y]) {
+            case blank:
+                cout << "No Piece At Location" << endl;
+                break;
+
+            case WPawn:
+                result = movePawn(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case WKnight:
+                result = moveKnight(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case WBishop:
+                result = moveBishop(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case WRook:
+                result = moveRook(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case WQueen:
+                result = moveBishop(x, y, a, b, board);
+                if (result == false) {
+                    result = moveRook(x, y, a, b, board);
+                }
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case WKing:
+                result = moveKing(x, y, a, b, board, blackDanger);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            }
+        }
+
+        //gameOver = checkMate(board, whiteDanger, blackDanger, 1);
+
+        //if (gameOver == true) {
+        //    cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
+        //}
+
+    }
+    
+    else {          //Black Move
+        if (whiteDanger[BKingX][BKingY] == 1) {
+            cout << "Black King In check" << endl;
+        }
+        else {
+            switch (board[x][y]) {
+            case blank:
+                cout << "No Piece At Location" << endl;
+                break;
+
+            case BPawn:
+                result = movePawn(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case BKnight:
+                result = moveKnight(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case BBishop:
+                result = moveBishop(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case BRook:
+                result = moveRook(x, y, a, b, board);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case BQueen:
+                result = moveBishop(x, y, a, b, board);
+                if (result == false) {
+                    result = moveRook(x, y, a, b, board);
+                }
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+
+            case BKing:
+                result = moveKing(x, y, a, b, board, whiteDanger);
+                if (result == true) {
+                    board[a][b] = board[x][y];
+                    board[x][y] = blank;
+                    turn++;
+                }
+                break;
+            }
+        }
+
+        //gameOver = checkMate(board, whiteDanger, blackDanger, 2);
+
+        //    if (gameOver == true) {
+        //        cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
+        //    }
+    }
+
+    return turn;
 
 }
 
 int main() {
-  int board[8][8];
+    int board[8][8];
+    int tempBoard[8][8];
+    int whiteDanger[8][8];
+    int blackDanger[8][8];
+    int turn = 1;
+
     setPawns(board);
     setNonPawns(board);
     setBlank(board);
 
     while (true) {
         printBoard(board);
-        chooseMove(board);
+        turn = chooseMove(board, tempBoard, whiteDanger, blackDanger, turn);
     }
 }
