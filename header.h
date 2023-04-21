@@ -9,10 +9,11 @@ enum piece {
 };
 
 
-void movePawn(int x, int y, int a, int b, int board[][8]);
-void moveKnight(int x, int y, int a, int b, int board[][8]);
-void moveBishop(int x, int y, int a, int b, int board[][8]);
-void moveRook(int x, int y, int a, int b, int board[][8]);
-void moveKing(int x, int y, int a, int b, int board[][8]);
+bool movePawn(int x, int y, int a, int b, int board[][8]);
+bool moveKnight(int x, int y, int a, int b, int board[][8]);
+bool moveBishop(int x, int y, int a, int b, int board[][8]);
+bool moveRook(int x, int y, int a, int b, int board[][8]);
+bool moveKing(int x, int y, int a, int b, int board[][8], int illigal[][8]);
 
-//void checkTiles(int board[][8]);
+void checkTiles(int board[][8], int whiteDanger[][8], int blackDanger[][8]);
+bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int color);
