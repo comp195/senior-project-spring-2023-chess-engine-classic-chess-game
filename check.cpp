@@ -504,7 +504,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (blackDanger[KingX][KingY] == 0) {
-                                    cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -530,7 +530,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (blackDanger[KingX][KingY] == 0) {
-                                    cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -556,7 +556,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (blackDanger[KingX][KingY] == 0) {
-                                    cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -582,7 +582,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (blackDanger[KingX][KingY] == 0) {
-                                    cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -611,7 +611,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (blackDanger[KingX][KingY] == 0) {
-                                    cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -637,7 +637,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (blackDanger[KingX][KingY] == 0) {
-                                    cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -686,6 +686,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (whiteDanger[KingX][KingY] == 0) {
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -711,6 +712,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (whiteDanger[KingX][KingY] == 0) {
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -736,6 +738,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (whiteDanger[KingX][KingY] == 0) {
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -761,6 +764,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (whiteDanger[KingX][KingY] == 0) {
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -789,6 +793,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (whiteDanger[KingX][KingY] == 0) {
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
@@ -814,6 +819,7 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                                 }
 
                                 if (whiteDanger[KingX][KingY] == 0) {
+                                    //cout << "Can be saved by (" << x << "," << y << ") to (" << a << "," << b << ")" << endl;
                                     return false;
                                 }
                             }
