@@ -7,7 +7,7 @@ bool movePawn(int x, int y, int a, int b, int board[][8]) {
         if (x == 6 && a == 4 && y == b && board[x - 2][y] == blank && board[x - 1][y] == blank) {  //checking for double first pawn move
             return true;
         }
-        else if (y == b && x - 1 == a) {      // checking for normal first pawn move
+        else if (y == b && x - 1 == a && board[x - 1][y] == blank) {      // checking for normal first pawn move
             return true;
         }
         else if ((b == y + 1 || b == y - 1) && board[a][b] > 6 && a == x - 1) {  //pawn capture
@@ -18,13 +18,14 @@ bool movePawn(int x, int y, int a, int b, int board[][8]) {
         if (x == 1 && a == 3 && y == b && board[x + 2][y] == blank && board[x + 1][y] == blank) {  //checking for double first pawn move
             return true;
         }
-        else if (y == b && x + 1 == a) {      // checking for normal first pawn move
+        else if (y == b && x + 1 == a && board[x + 1][y] == blank) {      // checking for normal first pawn move
             return true;
         }
         else if ((b == y + 1 || b == y - 1) && board[a][b] < 6 && a == x + 1) {  //pawn capture
             return true;
         }
     }
+    return false;
 }
 
 bool moveKnight(int x, int y, int a, int b, int board[][8]) {
@@ -45,6 +46,7 @@ bool moveKnight(int x, int y, int a, int b, int board[][8]) {
             return true;
         }
     }
+    return false;
 }
 
 
@@ -136,6 +138,7 @@ bool moveBishop(int x, int y, int a, int b, int board[][8]) {
             }
         }
     }
+    return false;
 }
 
 bool moveRook(int x, int y, int a, int b, int board[][8]) {
@@ -226,9 +229,10 @@ bool moveRook(int x, int y, int a, int b, int board[][8]) {
             }
         }
     }
+    return false;
 }
 
-bool moveKing(int x, int y, int a, int b, int board[][8], int illigal[][8]) {
+bool moveKing(int x, int y, int a, int b, int board[][8]) {
     if (board[x][y] == WKing && board[a][b] >= 6) {
         if (abs(x - a) <= 1 && abs(y - b) <= 1) {
             return true;
@@ -239,4 +243,5 @@ bool moveKing(int x, int y, int a, int b, int board[][8], int illigal[][8]) {
             return true;
         }
     }
+    return false;
 }
