@@ -3,12 +3,6 @@
 using namespace std;
 
 
-class Piece {
-public:
-
-};
-
-
 void setBlank(int board[][8]) {
     for (int i = 0; i < 8; i++) {
         for (int j = 2; j < 6; j++) {
@@ -185,7 +179,7 @@ int chooseMove(int board[][8], int tempBoard[][8], int whiteDanger[][8], int bla
                 break;
 
             case WKing:
-                result = moveKing(x, y, a, b, board, blackDanger);
+                result = moveKing(x, y, a, b, board);
                 if (result == true) {
                     board[a][b] = board[x][y];
                     board[x][y] = blank;
@@ -196,11 +190,11 @@ int chooseMove(int board[][8], int tempBoard[][8], int whiteDanger[][8], int bla
             }
         }
 
-        //gameOver = checkMate(board, whiteDanger, blackDanger, 1);
+        gameOver = checkMate(board, whiteDanger, blackDanger, 1);
 
-        //if (gameOver == true) {
-        //    cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
-        //}
+        if (gameOver == true) {
+            cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
+        }
 
     }
     
@@ -263,7 +257,7 @@ int chooseMove(int board[][8], int tempBoard[][8], int whiteDanger[][8], int bla
                 break;
 
             case BKing:
-                result = moveKing(x, y, a, b, board, whiteDanger);
+                result = moveKing(x, y, a, b, board);
                 if (result == true) {
                     board[a][b] = board[x][y];
                     board[x][y] = blank;
@@ -273,11 +267,11 @@ int chooseMove(int board[][8], int tempBoard[][8], int whiteDanger[][8], int bla
             }
         }
 
-        //gameOver = checkMate(board, whiteDanger, blackDanger, 2);
+        gameOver = checkMate(board, whiteDanger, blackDanger, 2);
 
-        //    if (gameOver == true) {
-        //        cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
-        //    }
+        if (gameOver == true) {
+            cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
+        }
     }
 
     return turn;
