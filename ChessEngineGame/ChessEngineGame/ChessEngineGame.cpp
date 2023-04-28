@@ -25,6 +25,12 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
+BOOL WKingMoved;
+BOOL BKingMoved;
+BOOL BRook1Moved;
+BOOL BRook2Moved;
+BOOL WRook1Moved;
+BOOL WRook2Moved;
 
 BOOL BoardReset;
 BOOL turnCount;
@@ -189,6 +195,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_CREATE:
     {
         turnCount = true;
+        WKingMoved = false;
+        WRook1Moved = false;
+        WRook2Moved = false;
+        BKingMoved = false;
+        BRook1Moved = false;
+        BRook2Moved = false;
 
         //set pieceSelect, pieceExist
         for (int i = 0; i < 32; i++) {
@@ -516,11 +528,21 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
         break;
     case WRook:
         result = moveRook(x, y, a, b, board1);
-
+        if (result == true && x == 0 && y == 0) {
+            WRook1Moved = true;
+        }
+        if (result == true && x == 0 && y == 7) {
+            WRook2Moved = true;
+        }
         break;
     case BRook:
         result = moveRook(x, y, a, b, board1);
-
+        if (result == true && x == 7 && y == 0) {
+            BRook1Moved = true;
+        }
+        if (result == true && x == 7 && y == 7) {
+            BRook2Moved = true;
+        }
         break;
     case WQueen:
         result = moveBishop(x, y, a, b, board1);
@@ -537,13 +559,52 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
 
         break;
     case WKing:
-
         result = moveKing(x, y, a, b, board1);
-
+        if (!WKingMoved && !WRook1Moved && a == 2 && b == 7 && board[0][7] == WRook && board[1][7] == blank && board[2][7] == blank && board[3][7] == blank) {
+            result = true;
+            for (int i = 0; i < 32; i++) {
+                if (pieceX[i] == 0 && pieceY[i] == 7) {
+                    pieceX[i] = 3;
+                    board[pieceX[i]][pieceY[i]] = WRook;
+                }
+            }
+        }
+        if (!WKingMoved && !WRook2Moved && a == 6 && b == 7 && board[7][7] == WRook && board[6][7] == blank && board[5][7] == blank ) {
+            result = true;
+            for (int i = 0; i < 32; i++) {
+                if (pieceX[i] == 7 && pieceY[i] == 7) {
+                    pieceX[i] = 5;
+                    board[pieceX[i]][pieceY[i]] = WRook;
+                }
+            }
+        }
+        if (result == true) {
+            WKingMoved = true;
+        }
         break;
     case BKing:
         result = moveKing(x, y, a, b, board1);
-
+        if (!BKingMoved && !BRook1Moved && a == 2 && b == 0 && board[0][0] == BRook && board[1][0] == blank && board[2][0] == blank && board[3][0] == blank) {
+            result = true;
+            for (int i = 0; i < 32; i++) {
+                if (pieceX[i] == 0 && pieceY[i] == 0) {
+                    pieceX[i] = 3;
+                    board[pieceX[i]][pieceY[i]] = BRook;
+                }
+            }
+        }
+        if (!BKingMoved && !BRook2Moved && a == 6 && b == 0 && board[7][0] == BRook && board[6][0] == blank && board[5][0] == blank) {
+            result = true;
+            for (int i = 0; i < 32; i++) {
+                if (pieceX[i] == 7 && pieceY[i] == 0) {
+                    pieceX[i] = 5;
+                    board[pieceX[i]][pieceY[i]] = BRook;
+                }
+            }
+        }
+        if (result == true) {
+            BKingMoved = true;
+        }
         break;
     }
     return result;
