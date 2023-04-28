@@ -41,7 +41,8 @@ BOOL                blackRook1_Exist, blackKnight1_Exist, blackBishop1_Exist,
                     orangeRook1_Exist, orangeKnight1_Exist, orangeBishop1_Exist,
                     orangeKing_Exist, orangeQueen_Exist,
                     orangeRook2_Exist, orangeKnight2_Exist, orangeBishop2_Exist, orangePawn1_Exist, orangePawn2_Exist, orangePawn3_Exist,
-                    orangePawn4_Exist, orangePawn5_Exist, orangePawn6_Exist, orangePawn7_Exist, orangePawn8_Exist;
+                    orangePawn4_Exist, orangePawn5_Exist, orangePawn6_Exist, orangePawn7_Exist, orangePawn8_Exist,
+                    orangePawn7_Captured;
 
 
 void setBoard(int[][8]);
@@ -735,7 +736,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 blackPawn8 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, blackPawn8_X, blackPawn8_Y, 70, 70, hWnd, NULL, NULL, NULL);
                 SendMessageW(blackPawn8, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)BlackPawnImage);
                 blackPawn8_Exist = true;
-                break;
+                
             }
             if (!orangeRook1_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
                 int xPos = int(round(iPosX / SpaceSize));
@@ -1004,44 +1005,60 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 orangePawn6_Exist = true;
                 break;
             }
-            if (!orangePawn7_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
-                int xPos = int(round(iPosX / SpaceSize));
-                int yPos = int(round(iPosY / SpaceSize));
-                int xOri = ((orangePawn7_X - 5) / 80);
-                int yOri = ((orangePawn7_Y - 5) / 80);
-                if (chooseMove(xOri, yOri, xPos, yPos, board)) {
-                    board[xPos][yPos] = board[xOri][yOri];
-                    board[xOri][yOri] = blank;
-                    iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
-                    iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
-                    orangePawn7_X = iPosX;
-                    orangePawn7_Y = iPosY;
+
+
+
+            if (orangePawn7_Captured == false) {
+                if (!orangePawn7_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+                    int xPos = int(round(iPosX / SpaceSize));
+                    int yPos = int(round(iPosY / SpaceSize));
+                    int xOri = ((orangePawn7_X - 5) / 80);
+                    int yOri = ((orangePawn7_Y - 5) / 80);
+                    if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                        board[xPos][yPos] = board[xOri][yOri];
+                        board[xOri][yOri] = blank;
+                        iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                        iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                        orangePawn7_X = iPosX;
+                        orangePawn7_Y = iPosY;
+                    }
+                    OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                    orangePawn7 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn7_X, orangePawn7_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                    SendMessageW(orangePawn7, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
+                    orangePawn7_Exist = true;
+                    orangePawn7_Captured = false;
+                    break;
+
                 }
-                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
-                orangePawn7 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn7_X, orangePawn7_Y, 70, 70, hWnd, NULL, NULL, NULL);
-                SendMessageW(orangePawn7, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
-                orangePawn7_Exist = true;
-                break;
+
+
+
+
+
             }
-            if (!orangePawn8_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
-                int xPos = int(round(iPosX / SpaceSize));
-                int yPos = int(round(iPosY / SpaceSize));
-                int xOri = ((orangePawn8_X - 5) / 80);
-                int yOri = ((orangePawn8_Y - 5) / 80);
-                if (chooseMove(xOri, yOri, xPos, yPos, board)) {
-                    board[xPos][yPos] = board[xOri][yOri];
-                    board[xOri][yOri] = blank;
-                    iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
-                    iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
-                    orangePawn8_X = iPosX;
-                    orangePawn8_Y = iPosY;
+
+                //this is for when you want to place a pawn there
+                if (!orangePawn8_Exist && iPosX < SpaceSize * 8 && iPosY < SpaceSize * 8) {
+                    int xPos = int(round(iPosX / SpaceSize));
+                    int yPos = int(round(iPosY / SpaceSize));
+                    int xOri = ((orangePawn8_X - 5) / 80);
+                    int yOri = ((orangePawn8_Y - 5) / 80);
+                    if (chooseMove(xOri, yOri, xPos, yPos, board)) {
+                        board[xPos][yPos] = board[xOri][yOri];
+                        board[xOri][yOri] = blank;
+                        iPosX = int(round(iPosX / SpaceSize) * SpaceSize) + 5;
+                        iPosY = int(round(iPosY / SpaceSize) * SpaceSize) + 5;
+                        orangePawn8_X = iPosX;
+                        orangePawn8_Y = iPosY;
+                    }
+                    OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
+                    orangePawn8 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn8_X, orangePawn8_Y, 70, 70, hWnd, NULL, NULL, NULL);
+                    SendMessageW(orangePawn8, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
+                    orangePawn8_Exist = true;
+
+
                 }
-                OrangePawnImage = (HBITMAP)LoadImageW(NULL, L"images/pawnorange.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
-                orangePawn8 = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, orangePawn8_X, orangePawn8_Y, 70, 70, hWnd, NULL, NULL, NULL);
-                SendMessageW(orangePawn8, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)OrangePawnImage);
-                orangePawn8_Exist = true;
-                break;
-            }
+                
 
 
             // Check whether in image(piece) is selected by mouse click
@@ -1050,163 +1067,209 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             if (iPosX > blackRook2_X && iPosX < (blackRook2_X + 75) && iPosY > blackRook2_Y && iPosY < (blackRook2_Y + 75)) {
                 DestroyWindow(blackRook2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackRook2_Exist = false;
-                break;
+
             }
             if (iPosX > blackRook1_X && iPosX < (blackRook1_X + 75) && iPosY > blackRook1_Y && iPosY < (blackRook1_Y + 75)) {
                 DestroyWindow(blackRook1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackRook1_Exist = false;
-                break;
+
             }
             if (iPosX > blackKnight2_X && iPosX < (blackKnight2_X + 75) && iPosY > blackKnight2_Y && iPosY < (blackKnight2_Y + 75)) {
                 DestroyWindow(blackKnight2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackKnight2_Exist = false;
-                break;
+
             }
             if (iPosX > blackKnight1_X && iPosX < (blackKnight1_X + 75) && iPosY > blackKnight1_Y && iPosY < (blackKnight1_Y + 75)) {
                 DestroyWindow(blackKnight1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackKnight1_Exist = false;
-                break;
+
             }
             if (iPosX > blackBishop2_X && iPosX < (blackBishop2_X + 75) && iPosY > blackBishop2_Y && iPosY < (blackBishop2_Y + 75)) {
                 DestroyWindow(blackBishop2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackBishop2_Exist = false;
-                break;
+ 
             }
             if (iPosX > blackBishop1_X && iPosX < (blackBishop1_X + 75) && iPosY > blackBishop1_Y && iPosY < (blackBishop1_Y + 75)) {
                 DestroyWindow(blackBishop1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackBishop1_Exist = false;
-                break;
+
             }
             if (iPosX > blackKing_X && iPosX < (blackKing_X + 75) && iPosY > blackKing_Y && iPosY < (blackKing_Y + 75)) {
                 DestroyWindow(blackKing);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackKing_Exist = false;
-                break;
+
             }
             if (iPosX > blackQueen_X && iPosX < (blackQueen_X + 75) && iPosY > blackQueen_Y && iPosY < (blackQueen_Y + 75)) {
                 DestroyWindow(blackQueen);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackQueen_Exist = false;
-                break;
+
             }
             if (iPosX > blackPawn1_X && iPosX < (blackPawn1_X + 75) && iPosY > blackPawn1_Y && iPosY < (blackPawn1_Y + 75)) {
                 DestroyWindow(blackPawn1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn1_Exist = false;
-                break;
+
             }
             if (iPosX > blackPawn2_X && iPosX < (blackPawn2_X + 75) && iPosY > blackPawn2_Y && iPosY < (blackPawn2_Y + 75)) {
                 DestroyWindow(blackPawn2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn2_Exist = false;
-                break;
+  
             }
             if (iPosX > blackPawn3_X && iPosX < (blackPawn3_X + 75) && iPosY > blackPawn3_Y && iPosY < (blackPawn3_Y + 75)) {
                 DestroyWindow(blackPawn3);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn3_Exist = false;
-                break;
+
             }
             if (iPosX > blackPawn4_X && iPosX < (blackPawn4_X + 75) && iPosY > blackPawn4_Y && iPosY < (blackPawn4_Y + 75)) {
                 DestroyWindow(blackPawn4);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn4_Exist = false;
-                break;
+
             }
             if (iPosX > blackPawn5_X && iPosX < (blackPawn5_X + 75) && iPosY > blackPawn5_Y && iPosY < (blackPawn5_Y + 75)) {
                 DestroyWindow(blackPawn5);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn5_Exist = false;
-                break;
+
             }
             if (iPosX > blackPawn6_X && iPosX < (blackPawn6_X + 75) && iPosY > blackPawn6_Y && iPosY < (blackPawn6_Y + 75)) {
                 DestroyWindow(blackPawn6);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn6_Exist = false;
-                break;
+
             }
             if (iPosX > blackPawn7_X && iPosX < (blackPawn7_X + 75) && iPosY > blackPawn7_Y && iPosY < (blackPawn7_Y + 75)) {
                 DestroyWindow(blackPawn7);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn7_Exist = false;
-                break;
+
             }
+            
             if (iPosX > blackPawn8_X && iPosX < (blackPawn8_X + 75) && iPosY > blackPawn8_Y && iPosY < (blackPawn8_Y + 75)) {
                 DestroyWindow(blackPawn8);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) blackPawn8_Exist = false;
-                break;
+
             }
+            
             if (iPosX > orangeRook2_X && iPosX < (orangeRook2_X + 75) && iPosY > orangeRook2_Y && iPosY < (orangeRook2_Y + 75)) {
                 DestroyWindow(orangeRook2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeRook2_Exist = false;
-                break;
+  
             }
             if (iPosX > orangeRook1_X && iPosX < (orangeRook1_X + 75) && iPosY > orangeRook1_Y && iPosY < (orangeRook1_Y + 75)) {
                 DestroyWindow(orangeRook1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeRook1_Exist = false;
-                break;
+      
             }
             if (iPosX > orangeKnight2_X && iPosX < (orangeKnight2_X + 75) && iPosY > orangeKnight2_Y && iPosY < (orangeKnight2_Y + 75)) {
                 DestroyWindow(orangeKnight2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeKnight2_Exist = false;
-                break;
+
             }
             if (iPosX > orangeKnight1_X && iPosX < (orangeKnight1_X + 75) && iPosY > orangeKnight1_Y && iPosY < (orangeKnight1_Y + 75)) {
                 DestroyWindow(orangeKnight1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeKnight1_Exist = false;
-                break;
+ 
             }
             if (iPosX > orangeBishop2_X && iPosX < (orangeBishop2_X + 75) && iPosY > orangeBishop2_Y && iPosY < (orangeBishop2_Y + 75)) {
                 DestroyWindow(orangeBishop2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeBishop2_Exist = false;
-                break;
+
             }
             if (iPosX > orangeBishop1_X && iPosX < (orangeBishop1_X + 75) && iPosY > orangeBishop1_Y && iPosY < (orangeBishop1_Y + 75)) {
                 DestroyWindow(orangeBishop1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeBishop1_Exist = false;
-                break;
+
             }
             if (iPosX > orangeKing_X && iPosX < (orangeKing_X + 75) && iPosY > orangeKing_Y && iPosY < (orangeKing_Y + 75)) {
                 DestroyWindow(orangeKing);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeKing_Exist = false;
-                break;
+
             }
             if (iPosX > orangeQueen_X && iPosX < (orangeQueen_X + 75) && iPosY > orangeQueen_Y && iPosY < (orangeQueen_Y + 75)) {
                 DestroyWindow(orangeQueen);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangeQueen_Exist = false;
-                break;
+
             }
             if (iPosX > orangePawn1_X && iPosX < (orangePawn1_X + 75) && iPosY > orangePawn1_Y && iPosY < (orangePawn1_Y + 75)) {
                 DestroyWindow(orangePawn1);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn1_Exist = false;
-                break;
+
             }
             if (iPosX > orangePawn2_X && iPosX < (orangePawn2_X + 75) && iPosY > orangePawn2_Y && iPosY < (orangePawn2_Y + 75)) {
                 DestroyWindow(orangePawn2);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn2_Exist = false;
-                break;
+
             }
             if (iPosX > orangePawn3_X && iPosX < (orangePawn3_X + 75) && iPosY > orangePawn3_Y && iPosY < (orangePawn3_Y + 75)) {
                 DestroyWindow(orangePawn3);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn3_Exist = false;
-                break;
+
             }
             if (iPosX > orangePawn4_X && iPosX < (orangePawn4_X + 75) && iPosY > orangePawn4_Y && iPosY < (orangePawn4_Y + 75)) {
                 DestroyWindow(orangePawn4);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn4_Exist = false;
-                break;
+
             }
             if (iPosX > orangePawn5_X && iPosX < (orangePawn5_X + 75) && iPosY > orangePawn5_Y && iPosY < (orangePawn5_Y + 75)) {
                 DestroyWindow(orangePawn5);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn5_Exist = false;
-                break;
+
             }
             if (iPosX > orangePawn6_X && iPosX < (orangePawn6_X + 75) && iPosY > orangePawn6_Y && iPosY < (orangePawn6_Y + 75)) {
                 DestroyWindow(orangePawn6);
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn6_Exist = false;
-                break;
+
             }
-            if (iPosX > orangePawn7_X && iPosX < (orangePawn7_X + 75) && iPosY > orangePawn7_Y && iPosY < (orangePawn7_Y + 75)) {
+
+
+
+            if (iPosX > orangePawn7_X && iPosX < (orangePawn7_X + 75) && iPosY > orangePawn7_Y && iPosY < (orangePawn7_Y + 75) )  {
                 DestroyWindow(orangePawn7);
-                if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn7_Exist = false;
-                break;
+
+
+                if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) {
+
+                    orangePawn7_Exist = false;
+                }
+
+                if (!blackPawn8_Exist) {
+                    orangePawn7_Captured = true;
+                }
+     
             }
-            if (iPosX > orangePawn8_X && iPosX < (orangePawn8_X + 75) && iPosY > orangePawn8_Y && iPosY < (orangePawn8_Y + 75)) {
+
+
+            
+            //this is for when you click the pawn to make it disapear 
+            if ( iPosX > orangePawn8_X && iPosX < (orangePawn8_X + 75) && iPosY > orangePawn8_Y && iPosY < (orangePawn8_Y + 75) ) {
                 DestroyWindow(orangePawn8);
+
+
+
                 if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6) orangePawn8_Exist = false;
-                break;
+
             }
+            
+
+            /*
+           //this is for when you click the pawn to make it disapear 
+            if (iPosX > orangePawn7_X && iPosX < (orangePawn7_X + 75) && iPosY > orangePawn7_Y && iPosY < (orangePawn7_Y + 75) && blackPawn8_Exist == false  && orangePawn7_Captured == false) {
+                DestroyWindow(orangePawn7);
+
+
+
+
+                if (board[int(round(iPosX / SpaceSize))][int(round(iPosY / SpaceSize))] != 6)
+                    orangePawn7_Exist = false;  
+
+            }
+            */
+          
+
+
+
+            
+
+
+
+            
+
 
 
             //pop up message box functionality
