@@ -146,7 +146,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     hInst = hInstance; // Store instance handle in our global variable
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+        CW_USEDEFAULT, 0, 850, 720, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
     {
@@ -222,6 +222,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 pieceX[8 * i + j] = j;
             }
         }
+
+
+
+
 
        CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 660, 80, 125, 23, hWnd, NULL, NULL, NULL);
 
