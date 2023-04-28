@@ -23,27 +23,9 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-INT                 blackRook1_X, blackRook1_Y, blackKnight1_X, blackKnight1_Y, blackBishop1_Y, blackBishop1_X,
-blackKing_X, blackKing_Y, blackQueen_X, blackQueen_Y,
-blackRook2_X, blackRook2_Y, blackKnight2_X, blackKnight2_Y, blackBishop2_Y, blackBishop2_X,
-blackPawn1_X, blackPawn1_Y, blackPawn2_X, blackPawn2_Y, blackPawn3_X, blackPawn3_Y, blackPawn4_X, blackPawn4_Y,
-blackPawn5_X, blackPawn5_Y, blackPawn6_X, blackPawn6_Y, blackPawn7_X, blackPawn7_Y, blackPawn8_X, blackPawn8_Y,
-orangeRook1_X, orangeRook1_Y, orangeKnight1_X, orangeKnight1_Y, orangeBishop1_Y, orangeBishop1_X,
-orangeKing_X, orangeKing_Y, orangeQueen_X, orangeQueen_Y,
-orangeRook2_X, orangeRook2_Y, orangeKnight2_X, orangeKnight2_Y, orangeBishop2_Y, orangeBishop2_X,
-orangePawn1_X, orangePawn1_Y, orangePawn2_X, orangePawn2_Y, orangePawn3_X, orangePawn3_Y, orangePawn4_X, orangePawn4_Y,
-orangePawn5_X, orangePawn5_Y, orangePawn6_X, orangePawn6_Y, orangePawn7_X, orangePawn7_Y, orangePawn8_X, orangePawn8_Y;
-
-BOOL                blackRook1_Exist, blackKnight1_Exist, blackBishop1_Exist,
-blackKing_Exist, blackQueen_Exist,
-blackRook2_Exist, blackKnight2_Exist, blackBishop2_Exist, blackPawn1_Exist, blackPawn2_Exist, blackPawn3_Exist,
-blackPawn4_Exist, blackPawn5_Exist, blackPawn6_Exist, blackPawn7_Exist, blackPawn8_Exist,
-orangeRook1_Exist, orangeKnight1_Exist, orangeBishop1_Exist,
-orangeKing_Exist, orangeQueen_Exist,
-orangeRook2_Exist, orangeKnight2_Exist, orangeBishop2_Exist, orangePawn1_Exist, orangePawn2_Exist, orangePawn3_Exist,
-orangePawn4_Exist, orangePawn5_Exist, orangePawn6_Exist, orangePawn7_Exist, orangePawn8_Exist, BoardReset;
 
 
+BOOL BoardReset;
 BOOL turnCount;
 INT pieceExist[32];
 HWND pieceImage[32];
@@ -55,9 +37,7 @@ void setBoard(int[][8]);
 bool chooseMove(int, int, int, int, int[][8]);
 INT board[8][8];
 
-HWND hButton, hLayout, hKing, blackRook1, blackKnight1, blackBishop1, blackRook2, blackKnight2, blackBishop2, blackKing, blackQueen,
-blackPawn1, blackPawn2, blackPawn3, blackPawn4, blackPawn5, blackPawn6, blackPawn7, blackPawn8, orangeRook1, orangeKnight1, orangeBishop1, orangeRook2, orangeKnight2, orangeBishop2, orangeKing, orangeQueen,
-orangePawn1, orangePawn2, orangePawn3, orangePawn4, orangePawn5, orangePawn6, orangePawn7, orangePawn8;
+HWND hButton, hLayout;
 
 HBITMAP hBoardImage, hKingImage, BlackKingImage, BlackQueenImage, BlackRookImage, BlackKnightImage, BlackBishopImage, BlackPawnImage,
 OrangeKingImage, OrangeQueenImage, OrangeRookImage, OrangeKnightImage, OrangeBishopImage, OrangePawnImage;
@@ -224,7 +204,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
 
        CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 665, 65, 125, 30, hWnd, NULL, NULL, NULL);
-
+      
 
         BlackRookImage = (HBITMAP)LoadImageW(NULL, L"images/rookpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
         BlackKnightImage = (HBITMAP)LoadImageW(NULL, L"images/knightpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
@@ -306,14 +286,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     board[pieceX[i]][pieceY[i]] = blank;
                     pieceX[i] = xPos;
                     pieceY[i] = yPos;
+                    turnCount = !turnCount;
                 }
                 BoardReset = true;
             }
         }
+        //Selecting Piece
         for (int i = 0; i < 32; i++) {
             if (!BoardReset && iPosX > (pieceX[i] * 80 + 5) && iPosX < (pieceX[i] * 80 + 80) && iPosY >(pieceY[i] * 80 + 5) && iPosY < ((pieceY[i] * 80 + 80))) {
-                BoardReset = true;
-                pieceSelect[i] = true;
+                if ((turnCount && board[pieceX[i]][pieceY[i]] < 6) || (!turnCount && board[pieceX[i]][pieceY[i]] > 6)) {
+                    BoardReset = true;
+                    pieceSelect[i] = true;
+                }
             }
         }
         // Check whether in image(piece) is selected by mouse click
