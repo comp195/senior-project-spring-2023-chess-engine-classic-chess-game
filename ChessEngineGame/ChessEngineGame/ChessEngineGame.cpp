@@ -25,6 +25,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
+
 BOOL BoardReset;
 BOOL turnCount;
 INT pieceExist[32];
@@ -287,6 +288,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     pieceX[i] = xPos;
                     pieceY[i] = yPos;
                     turnCount = !turnCount;
+                    if (board[pieceX[i]][pieceY[i]] == WPawn && pieceY[i] == 0) {
+                        board[pieceX[i]][pieceY[i]] = WQueen;
+                    }
+                    if (board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 7) {
+                        board[pieceX[i]][pieceY[i]] = BQueen;
+                    }
                 }
                 BoardReset = true;
             }
@@ -530,6 +537,7 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
 
         break;
     case WKing:
+
         result = moveKing(x, y, a, b, board1);
 
         break;
