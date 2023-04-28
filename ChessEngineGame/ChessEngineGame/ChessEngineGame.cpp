@@ -223,8 +223,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
 
-       CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 665, 65, 125, 30, hWnd, NULL, NULL, NULL);
-
+       CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 660, 80, 125, 23, hWnd, NULL, NULL, NULL);
 
         BlackRookImage = (HBITMAP)LoadImageW(NULL, L"images/rookpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
         BlackKnightImage = (HBITMAP)LoadImageW(NULL, L"images/knightpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
@@ -336,7 +335,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DestroyWindow(pieceImage[i]);
                 if (board[pieceX[i]][pieceY[i]] != blank && pieceExist[i]) {
                     if (pieceSelect[i]) {
-                        pieceImage[i] = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 700, 5, 70, 70, hWnd, NULL, NULL, NULL);
+                        pieceImage[i] = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 700, 20, 70, 70, hWnd, NULL, NULL, NULL);
                     }
                     else {
                         pieceImage[i] = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, (pieceX[i] * 80 + 5), (pieceY[i] * 80) + 5, 70, 70, hWnd, NULL, NULL, NULL);
@@ -411,6 +410,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
         // TODO: Add any drawing code that uses hdc here...
+
+        HPEN hPenOld;
+        HPEN hLinePen;
+        COLORREF qLineColor;
+        qLineColor = RGB(8, 25, 10);
+        hLinePen = CreatePen(PS_SOLID, 1, qLineColor);
+        hPenOld = (HPEN)SelectObject(hdc, hLinePen);
+
+        MoveToEx(hdc, 685, 15, NULL);
+        LineTo(hdc, 685, 70);
+
+        MoveToEx(hdc, 750, 15, NULL);
+        LineTo(hdc, 750, 70);
+
+        MoveToEx(hdc, 685, 70, NULL);
+        LineTo(hdc, 751, 70);
+
+        MoveToEx(hdc, 685, 15, NULL);
+        LineTo(hdc, 751, 15);
 
         DrawBoard(hdc);
         EndPaint(hWnd, &ps);
