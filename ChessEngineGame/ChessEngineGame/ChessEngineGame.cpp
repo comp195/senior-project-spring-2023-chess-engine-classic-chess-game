@@ -31,6 +31,7 @@ BOOL BRook1Moved;
 BOOL BRook2Moved;
 BOOL WRook1Moved;
 BOOL WRook2Moved;
+INT EnpassantCheck;
 
 BOOL BoardReset;
 BOOL turnCount;
@@ -194,6 +195,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case WM_CREATE:
     {
+        EnpassantCheck = -1;
         turnCount = true;
         WKingMoved = false;
         WRook1Moved = false;
@@ -216,12 +218,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
 
-<<<<<<< HEAD
 
-=======
-       CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 665, 65, 125, 30, hWnd, NULL, NULL, NULL);
-      
->>>>>>> 523008dc79503fafaab7e0a92717a1d7b05e8138
 
 
 
@@ -303,6 +300,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 int xPos = int(round(iPosX / SpaceSize));
                 int yPos = int(round(iPosY / SpaceSize));
                 if (chooseMove(pieceX[i], pieceY[i], xPos, yPos, board)) {
+                    if ((board[pieceX[i]][pieceY[i]] == WPawn && pieceY[i] == 6 && yPos == 4) || board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 1 && yPos == 3) {
+                        EnpassantCheck = xPos;
+                    }
+                    else {
+                        EnpassantCheck = -1;
+                    }
                     board[xPos][yPos] = board[pieceX[i]][pieceY[i]];
                     board[pieceX[i]][pieceY[i]] = blank;
                     pieceX[i] = xPos;
@@ -535,11 +538,18 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
         break;
     case BPawn:
         result = movePawn(x, y, a, b, board1);
+        if (y == 4 && b == 5 && ((x - 1) == a || (x + 1) == a) && EnpassantCheck == a) {
+            result = true;
+            board[a][4] = blank;
+        }
         break;
     case WPawn:
         result = movePawn(x, y, a, b, board1);
+        if (y == 3 && b == 2 && ((x-1)==a || (x+1)==a) && EnpassantCheck == a) {
+            result = true;
+            board[a][3] = blank;
+        }
         break;
-
     case WKnight:
         result = moveKnight(x, y, a, b, board1);
         break;
