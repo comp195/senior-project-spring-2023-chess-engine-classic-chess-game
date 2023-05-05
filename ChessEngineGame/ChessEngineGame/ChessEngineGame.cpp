@@ -35,6 +35,7 @@ INT EnpassantCheck;
 
 BOOL BoardReset;
 BOOL turnCount;
+BOOL checkmateCHECK;
 INT pieceExist[32];
 HWND pieceImage[32];
 INT pieceX[32];
@@ -424,7 +425,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             DestroyWindow(CheckCounter);
             if (check(turnCount, board)) {
-                CheckCounter = CreateWindowW(L"static", L"CHECK", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
+                checkmateCHECK = true;
+                for (int i = 0; i < 32; i++) {
+                    if ((turnCount && board[pieceX[i]][pieceY[i]] < 6) || (!turnCount && board[pieceX[i]][pieceY[i]] > 6)) { //for each piece of turn
+                        for (int xcoord = 0; xcoord < 8; xcoord++) { //for each space
+                            for (int ycoord = 0; ycoord < 8; ycoord++) {
+
+                                for (int x = 0; x < 8; x++) { //copy board stat over to temp one
+                                    for (int y = 0; y < 8; y++) {
+                                        boardTEMP[x][y] = board[x][y];
+                                    }
+                                }
+                                if (chooseMove(pieceX[i], pieceY[i], xcoord, ycoord, boardTEMP)) {
+                                    boardTEMP[xcoord][ycoord] = boardTEMP[pieceX[i]][pieceY[i]];
+                                    boardTEMP[pieceX[i]][pieceY[i]] = blank;
+                                    checkmateCHECK = (checkmateCHECK && check(turnCount, boardTEMP)); //check if the move can break check
+                                    if (!checkmateCHECK) { xcoord = 8; ycoord = 8; i = 32;} // if it is not checkmate, end this sequence
+                                }
+                            }
+                        }
+                    }
+                }
+                if (checkmateCHECK) {
+                    CheckCounter = CreateWindowW(L"static", L"CHECKMATE", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
+                }
+                else {
+                    CheckCounter = CreateWindowW(L"static", L"CHECK", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
+                }
             }
             break;
         }
@@ -625,7 +652,7 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
         break;
     case WKing:
         result = moveKing(x, y, a, b, board1);
-        if (!WKingMoved && !WRook1Moved && a == 2 && b == 7 && board[0][7] == WRook && board[1][7] == blank && board[2][7] == blank && board[3][7] == blank) {
+        if (!WKingMoved && !WRook1Moved && a == 2 && b == 7 && board1[0][7] == WRook && board1[1][7] == blank && board1[2][7] == blank && board1[3][7] == blank) {
             result = true;
             for (int i = 0; i < 32; i++) {
                 if (pieceX[i] == 0 && pieceY[i] == 7) {
@@ -634,7 +661,7 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
                 }
             }
         }
-        if (!WKingMoved && !WRook2Moved && a == 6 && b == 7 && board[7][7] == WRook && board[6][7] == blank && board[5][7] == blank ) {
+        if (!WKingMoved && !WRook2Moved && a == 6 && b == 7 && board1[7][7] == WRook && board1[6][7] == blank && board1[5][7] == blank ) {
             result = true;
             for (int i = 0; i < 32; i++) {
                 if (pieceX[i] == 7 && pieceY[i] == 7) {
@@ -649,7 +676,7 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
         break;
     case BKing:
         result = moveKing(x, y, a, b, board1);
-        if (!BKingMoved && !BRook1Moved && a == 2 && b == 0 && board[0][0] == BRook && board[1][0] == blank && board[2][0] == blank && board[3][0] == blank) {
+        if (!BKingMoved && !BRook1Moved && a == 2 && b == 0 && board1[0][0] == BRook && board1[1][0] == blank && board1[2][0] == blank && board1[3][0] == blank) {
             result = true;
             for (int i = 0; i < 32; i++) {
                 if (pieceX[i] == 0 && pieceY[i] == 0) {
@@ -658,7 +685,7 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
                 }
             }
         }
-        if (!BKingMoved && !BRook2Moved && a == 6 && b == 0 && board[7][0] == BRook && board[6][0] == blank && board[5][0] == blank) {
+        if (!BKingMoved && !BRook2Moved && a == 6 && b == 0 && board1[7][0] == BRook && board1[6][0] == blank && board1[5][0] == blank) {
             result = true;
             for (int i = 0; i < 32; i++) {
                 if (pieceX[i] == 7 && pieceY[i] == 0) {
@@ -682,8 +709,6 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
 * If team is True, Check if white is in check
 * If team is False, Check if black is in check
 * 
-* KingX is the x coordinate of the King (0-7)
-* KingY is the y coordinate of the King (0-7)
 * */
 
 bool check(bool team, int board1[][8]) {
