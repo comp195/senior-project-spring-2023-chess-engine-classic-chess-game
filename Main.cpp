@@ -196,83 +196,16 @@ int chooseMove(int board[][8], int tempBoard[][8], int whiteDanger[][8], int bla
             cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
         }
 
+        legal(board, whiteDanger, blackDanger);
+        turn++;
+
     }
-    
-    else {          //Black Move
-        if (whiteDanger[BKingX][BKingY] == 1) {
-            cout << "Black King In check" << endl;
-        }
-        else {
-            switch (board[x][y]) {
-            case blank:
-                cout << "No Piece At Location" << endl;
-                break;
-
-            case BPawn:
-                result = movePawn(x, y, a, b, board);
-                if (result == true) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
-                    turn++;
-                }
-                break;
-
-            case BKnight:
-                result = moveKnight(x, y, a, b, board);
-                if (result == true) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
-                    turn++;
-                }
-                break;
-
-            case BBishop:
-                result = moveBishop(x, y, a, b, board);
-                if (result == true) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
-                    turn++;
-                }
-                break;
-
-            case BRook:
-                result = moveRook(x, y, a, b, board);
-                if (result == true) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
-                    turn++;
-                }
-                break;
-
-            case BQueen:
-                result = moveBishop(x, y, a, b, board);
-                if (result == false) {
-                    result = moveRook(x, y, a, b, board);
-                }
-                if (result == true) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
-                    turn++;
-                }
-                break;
-
-            case BKing:
-                result = moveKing(x, y, a, b, board);
-                if (result == true) {
-                    board[a][b] = board[x][y];
-                    board[x][y] = blank;
-                    turn++;
-                }
-                break;
-            }
-        }
 
         gameOver = checkMate(board, whiteDanger, blackDanger, 2);
 
         if (gameOver == true) {
             cout << "CHECKMATE CHECKMATE CHECKMATE" << endl;
         }
-    }
 
     return turn;
 
