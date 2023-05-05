@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <time.h>
 #include "header.h"
 using namespace std;
 
@@ -16,6 +18,7 @@ struct legalMoves {
 
 void legal(int board[][8], int whiteDanger[][8], int blackDanger[][8]) {
     vector<legalMoves> moves;
+    srand(time(0));
 
     int tempBoard[8][8];
     bool result = false;
@@ -199,7 +202,7 @@ void legal(int board[][8], int whiteDanger[][8], int blackDanger[][8]) {
     for (const legalMoves& move : moves) {
         pointDiff = legalJump(board, whiteDanger, blackDanger, move.start_pos.first, move.start_pos.second, move.end_pos.first, move.end_pos.second);
 
-        cout << pointDiff << " Start pos: (" << move.start_pos.first << ", " << move.start_pos.second << "). End pos: (" << move.end_pos.first << ", " << move.end_pos.second << ")" << endl;
+        //cout << pointDiff << " Start pos: (" << move.start_pos.first << ", " << move.start_pos.second << "). End pos: (" << move.end_pos.first << ", " << move.end_pos.second << ")" << endl;
         if (pointDiff > bestPoints) {
             bestPoints = pointDiff;
             topX = move.start_pos.first;
@@ -207,11 +210,21 @@ void legal(int board[][8], int whiteDanger[][8], int blackDanger[][8]) {
             topA = move.end_pos.first;
             topB = move.end_pos.second;
         }
+        else if (pointDiff == bestPoints) {
+            int randomNum = rand() % 10 + 1;
+            cout << randomNum << endl;
+            if (randomNum < 4) {
+                bestPoints = pointDiff;
+                topX = move.start_pos.first;
+                topY = move.start_pos.second;
+                topA = move.end_pos.first;
+                topB = move.end_pos.second;
+            }
+        }
     }
 
     board[topA][topB] = board[topX][topY];
     board[topX][topY] = blank;
-    //cout << "Start pos: (" << topX << ", " << topY << "). End pos: (" << topA << ", " << topB << ")" << endl;
 
 }
 
@@ -474,12 +487,14 @@ int legalJump(int board[][8], int whiteDanger[][8], int blackDanger[][8], int ne
 
             }
         }
+
+        totalPoints = blackPoints - whitePoints;
+        if (totalPoints < worstPoints) {
+            worstPoints = totalPoints;
+        }
+
     }
 
-    totalPoints = blackPoints - whitePoints;
-    if (totalPoints < worstPoints) {
-        worstPoints = totalPoints;
-    }
 
     return worstPoints;
 
