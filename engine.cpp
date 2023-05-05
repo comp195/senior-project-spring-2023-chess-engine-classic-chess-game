@@ -201,6 +201,10 @@ void legal(int board[][8], int whiteDanger[][8], int blackDanger[][8]) {
 
     for (const legalMoves& move : moves) {
         pointDiff = legalJump(board, whiteDanger, blackDanger, move.start_pos.first, move.start_pos.second, move.end_pos.first, move.end_pos.second);
+        bool gameOver = checkMate(tempBoard, whiteDanger, blackDanger, 2);
+        if (gameOver) {
+            cout << "CHECKMATE" << endl;
+        }
 
         //cout << pointDiff << " Start pos: (" << move.start_pos.first << ", " << move.start_pos.second << "). End pos: (" << move.end_pos.first << ", " << move.end_pos.second << ")" << endl;
         if (pointDiff > bestPoints) {
@@ -483,8 +487,6 @@ int legalJump(int board[][8], int whiteDanger[][8], int blackDanger[][8], int ne
                     blackPoints = blackPoints + 1000;
                     break;
                 }
-
-
             }
         }
 
