@@ -43,9 +43,12 @@ BOOL pieceSelect[32];
 
 void setBoard(int[][8]);
 bool chooseMove(int, int, int, int, int[][8]);
+bool check(bool, int[][8]);
 INT board[8][8];
+INT boardTEMP[8][8];
 
-HWND hButton, hLayout;
+
+HWND hButton, hLayout, CheckCounter, TurnCounter;
 
 HBITMAP hBoardImage, hKingImage, BlackKingImage, BlackQueenImage, BlackRookImage, BlackKnightImage, BlackBishopImage, BlackPawnImage,
 OrangeKingImage, OrangeQueenImage, OrangeRookImage, OrangeKnightImage, OrangeBishopImage, OrangePawnImage;
@@ -223,6 +226,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
        CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 660, 80, 125, 23, hWnd, NULL, NULL, NULL);
+       TurnCounter = CreateWindowW(L"static", L"Whites's turn", WS_VISIBLE | WS_CHILD, 660, 120, 125, 23, hWnd, NULL, NULL, NULL);
+
 
         BlackRookImage = (HBITMAP)LoadImageW(NULL, L"images/rookpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
         BlackKnightImage = (HBITMAP)LoadImageW(NULL, L"images/knightpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
@@ -300,22 +305,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 int xPos = int(round(iPosX / SpaceSize));
                 int yPos = int(round(iPosY / SpaceSize));
                 if (chooseMove(pieceX[i], pieceY[i], xPos, yPos, board)) {
-                    if ((board[pieceX[i]][pieceY[i]] == WPawn && pieceY[i] == 6 && yPos == 4) || board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 1 && yPos == 3) {
-                        EnpassantCheck = xPos;
+                    for (int xcoord = 0; xcoord < 8; xcoord++) { //copy board stat over to temp one
+                        for (int ycoord = 0; ycoord < 8; ycoord++) {
+                            boardTEMP[xcoord][ycoord] = board[xcoord][ycoord];
+                        }
                     }
-                    else {
-                        EnpassantCheck = -1;
-                    }
-                    board[xPos][yPos] = board[pieceX[i]][pieceY[i]];
-                    board[pieceX[i]][pieceY[i]] = blank;
-                    pieceX[i] = xPos;
-                    pieceY[i] = yPos;
-                    turnCount = !turnCount;
-                    if (board[pieceX[i]][pieceY[i]] == WPawn && pieceY[i] == 0) {
-                        board[pieceX[i]][pieceY[i]] = WQueen;
-                    }
-                    if (board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 7) {
-                        board[pieceX[i]][pieceY[i]] = BQueen;
+                    boardTEMP[xPos][yPos] = boardTEMP[pieceX[i]][pieceY[i]];
+                    boardTEMP[pieceX[i]][pieceY[i]] = blank;
+                    if (!check(turnCount, boardTEMP)) {
+                        if ((board[pieceX[i]][pieceY[i]] == WPawn && pieceY[i] == 6 && yPos == 4) || board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 1 && yPos == 3) {
+                            EnpassantCheck = xPos;
+                        }
+                        else {
+                            EnpassantCheck = -1;
+                        }
+                        board[xPos][yPos] = board[pieceX[i]][pieceY[i]];
+                        board[pieceX[i]][pieceY[i]] = blank;
+                        pieceX[i] = xPos;
+                        pieceY[i] = yPos;
+                        turnCount = !turnCount;
+                        if (board[pieceX[i]][pieceY[i]] == WPawn && pieceY[i] == 0) {
+                           board[pieceX[i]][pieceY[i]] = WQueen;
+                        }
+                        if (board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 7) {
+                            board[pieceX[i]][pieceY[i]] = BQueen;
+                        }
                     }
                 }
                 BoardReset = true;
@@ -399,6 +413,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 }
             }
             BoardReset = false;
+            DestroyWindow(TurnCounter);
+            if (turnCount) {
+                TurnCounter = CreateWindowW(L"static", L"White's turn", WS_VISIBLE | WS_CHILD, 660, 120, 125, 23, hWnd, NULL, NULL, NULL);
+            }
+            else {
+                TurnCounter = CreateWindowW(L"static", L"Black's turn", WS_VISIBLE | WS_CHILD, 660, 120, 125, 23, hWnd, NULL, NULL, NULL);
+            }
+
+
+            DestroyWindow(CheckCounter);
+            if (check(turnCount, board)) {
+                CheckCounter = CreateWindowW(L"static", L"CHECK", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
+            }
             break;
         }
         //pop up message box functionality
@@ -530,6 +557,7 @@ void setBoard(int board[][8]) {
 
 }
 
+
 bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
     bool result = false;
 
@@ -646,4 +674,43 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
     }
     return result;
 
+}
+
+
+/*Check whether a side is in check based on boardstate given
+* 
+* If team is True, Check if white is in check
+* If team is False, Check if black is in check
+* 
+* KingX is the x coordinate of the King (0-7)
+* KingY is the y coordinate of the King (0-7)
+* */
+
+bool check(bool team, int board1[][8]) {
+    bool result = false;
+    int kingX = -1;
+    int kingY = -1;
+    for (int xcoord = 0; xcoord < 8; xcoord++) {//locate king in question
+        for (int ycoord = 0; ycoord < 8; ycoord++) {
+            if ((board1[xcoord][ycoord] == WKing && team) || (board1[xcoord][ycoord] == BKing && !team)) {
+                kingX = xcoord;
+                kingY = ycoord;
+            }
+        }
+    }
+    for (int xcoord = 0; xcoord < 8; xcoord++) {//locate king in question
+        for (int ycoord = 0; ycoord < 8; ycoord++) {
+            if (team) { //White
+                if (board1[xcoord][ycoord] > 6) { // if the piece is black:
+                    result = (result || chooseMove(xcoord, ycoord, kingX, kingY, board1)); //attempt to move that piece on the King, if it can make that move legally, it counts
+                }
+            }
+            else { //Black
+                if (board1[xcoord][ycoord] < 6) { // if the piece is white:
+                    result = (result || chooseMove(xcoord, ycoord, kingX, kingY, board1)); //attempt to move that piece on the King, if it can make that move legally, it counts
+                }
+            }
+        }
+    }
+    return result;
 }
