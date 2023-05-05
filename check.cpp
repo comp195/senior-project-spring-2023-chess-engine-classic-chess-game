@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 #include "header.h"
 using namespace std;
 
@@ -648,7 +649,6 @@ bool checkMate(int board[][8], int whiteDanger[][8], int blackDanger[][8], int c
                     }
                 }
             }
-            cout << "loop" << endl;
         }
         cout << "Checkmate" << endl;
         return true;
