@@ -134,7 +134,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="check.cpp" />
     <ClCompile Include="ChessEngineGame.cpp" />
+    <ClCompile Include="engine.cpp" />
     <ClCompile Include="move.cpp" />
   </ItemGroup>
   <ItemGroup>
