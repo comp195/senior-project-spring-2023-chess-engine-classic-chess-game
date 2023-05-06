@@ -4,6 +4,8 @@
 #include "framework.h"
 #include "ChessEngineGame.h"
 #include "header1.h"
+#include "iostream"
+#include <utility>
 #include <cmath>
 
 #define MAX_LOADSTRING 100
@@ -335,6 +337,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                             pieceExist[pieceTEMP] = false;
                             pieceTEMP++;
                         }
+                        if (check(turnCount, board)) {
+                            checkmateCHECK = true;
+                            for (int i = 0; i < 32; i++) {
+                                if ((turnCount && board[pieceX[i]][pieceY[i]] < 6) || (!turnCount && board[pieceX[i]][pieceY[i]] > 6)) { //for each piece of turn
+                                    for (int xcoord = 0; xcoord < 8; xcoord++) { //for each space
+                                        for (int ycoord = 0; ycoord < 8; ycoord++) {
+
+                                            for (int x = 0; x < 8; x++) { //copy board stat over to temp one
+                                                for (int y = 0; y < 8; y++) {
+                                                    boardTEMP[x][y] = board[x][y];
+                                                }
+                                            }
+                                            if (chooseMove(pieceX[i], pieceY[i], xcoord, ycoord, boardTEMP)) {
+                                                boardTEMP[xcoord][ycoord] = boardTEMP[pieceX[i]][pieceY[i]];
+                                                boardTEMP[pieceX[i]][pieceY[i]] = blank;
+                                                checkmateCHECK = (checkmateCHECK && check(turnCount, boardTEMP)); //check if the move can break check
+                                                if (!checkmateCHECK) { xcoord = 8; ycoord = 8; i = 32; } // if it is not checkmate, end this sequence
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (checkmateCHECK) {
+                                CheckCounter = CreateWindowW(L"static", L"CHECKMATEfasdfsdfsd", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
+                                turnCount = !turnCount;
+                            }
+                            else {
+                                CheckCounter = CreateWindowW(L"static", L"CHECK", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
+                            }
+                        }
                         turnCount = !turnCount;
                     }
                 }
@@ -452,8 +484,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     }
                 }
                 if (checkmateCHECK) {
-                    CheckCounter = CreateWindowW(L"static", L"CHECKMATE", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
-                }
+                    CheckCounter = CreateWindowW(L"static", L"CHECKMATE", WS_VISIBLE | WS_CHILD, 660, 160, 200, 23, hWnd, NULL, NULL, NULL);
+                    turnCount = false;
+                } 
                 else {
                     CheckCounter = CreateWindowW(L"static", L"CHECK", WS_VISIBLE | WS_CHILD, 660, 160, 125, 23, hWnd, NULL, NULL, NULL);
                 }
