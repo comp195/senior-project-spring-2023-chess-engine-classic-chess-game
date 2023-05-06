@@ -540,7 +540,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         DrawBoard(hdc);
         EndPaint(hWnd, &ps);
 
-        hBoardImage = (HBITMAP)LoadImageW(NULL, L"ChessLayout.bmp", IMAGE_BITMAP, 645, 645, LR_LOADFROMFILE);
+        hBoardImage = (HBITMAP)LoadImageW(NULL, L"images/ChessLayout.bmp", IMAGE_BITMAP, 645, 645, LR_LOADFROMFILE);
         hLayout = CreateWindowW(L"Static", NULL, WS_VISIBLE | WS_CHILD | SS_BITMAP, 0, 0, 100, 100, hWnd, NULL, NULL, NULL);
         SendMessageW(hLayout, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hBoardImage);
         BringWindowToTop(hLayout);
