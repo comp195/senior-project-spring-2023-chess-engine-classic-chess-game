@@ -14,3 +14,6 @@ A digital Chess Game played against a competitive AI oponent with a easy to use 
 
 ## Special Notes:
 Chess game is a computer software and is intended to be played as one.
+
+## Running the Program
+Download and Extract the ChessGame zip file, and run the EXE file. You play as white, AI opponent plays as black
