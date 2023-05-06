@@ -19,6 +19,7 @@ struct legalMoves {
 void legal(int board[][8], int whiteDanger[][8], int blackDanger[][8]) {
     vector<legalMoves> moves;
     srand(time(0));
+    bool gameOver;
 
     int tempBoard[8][8];
     bool result = false;
@@ -200,11 +201,26 @@ void legal(int board[][8], int whiteDanger[][8], int blackDanger[][8]) {
     }
 
     for (const legalMoves& move : moves) {
-        pointDiff = legalJump(board, whiteDanger, blackDanger, move.start_pos.first, move.start_pos.second, move.end_pos.first, move.end_pos.second);
-        bool gameOver = checkMate(tempBoard, whiteDanger, blackDanger, 2);
-        if (gameOver) {
-            cout << "CHECKMATE" << endl;
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                tempBoard[i][j] = board[i][j];
+            }
         }
+
+        tempBoard[move.end_pos.first][move.end_pos.second] = tempBoard[move.start_pos.first][move.start_pos.second];
+        tempBoard[move.start_pos.first][move.start_pos.second] = blank;
+
+        gameOver = checkMate(tempBoard, whiteDanger, blackDanger, 2);
+        if (gameOver) {
+            topX = move.start_pos.first;
+            topY = move.start_pos.second;
+            topA = move.end_pos.first;
+            topB = move.end_pos.second;
+        }
+
+        pointDiff = legalJump(board, whiteDanger, blackDanger, move.start_pos.first, move.start_pos.second, move.end_pos.first, move.end_pos.second);
+
 
         //cout << pointDiff << " Start pos: (" << move.start_pos.first << ", " << move.start_pos.second << "). End pos: (" << move.end_pos.first << ", " << move.end_pos.second << ")" << endl;
         if (pointDiff > bestPoints) {
@@ -227,8 +243,14 @@ void legal(int board[][8], int whiteDanger[][8], int blackDanger[][8]) {
         }
     }
 
-    board[topA][topB] = board[topX][topY];
-    board[topX][topY] = blank;
+    bool end1 = checkMate(board, whiteDanger, blackDanger, 2);
+    bool end2 = checkMate(board, whiteDanger, blackDanger, 1);
+
+
+    if (end1 == false && end2 == false) {
+        board[topA][topB] = board[topX][topY];
+        board[topX][topY] = blank;
+    }
 
 }
 
