@@ -25,13 +25,6 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
-BOOL WKingMoved;
-BOOL BKingMoved;
-BOOL BRook1Moved;
-BOOL BRook2Moved;
-BOOL WRook1Moved;
-BOOL WRook2Moved;
-INT EnpassantCheck;
 
 BOOL BoardReset;
 BOOL turnCount;
@@ -42,11 +35,15 @@ INT pieceX[32];
 INT pieceY[32];
 BOOL pieceSelect[32];
 
+INT pieceTEMP;
+
 void setBoard(int[][8]);
 bool chooseMove(int, int, int, int, int[][8]);
 bool check(bool, int[][8]);
 INT board[8][8];
 INT boardTEMP[8][8];
+INT whiteDanger[8][8];
+INT blackDanger[8][8];
 
 
 HWND hButton, hLayout, CheckCounter, TurnCounter;
@@ -63,7 +60,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 
-    // TODO: Place code here.
 
     setBoard(board);
 
@@ -199,14 +195,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case WM_CREATE:
     {
-        EnpassantCheck = -1;
+
+
+
+
         turnCount = true;
-        WKingMoved = false;
-        WRook1Moved = false;
-        WRook2Moved = false;
-        BKingMoved = false;
-        BRook1Moved = false;
-        BRook2Moved = false;
+
 
         //set pieceSelect, pieceExist
         for (int i = 0; i < 32; i++) {
@@ -222,12 +216,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
 
+        checkTiles(board, whiteDanger, blackDanger);
 
 
 
-
-       CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 660, 80, 125, 23, hWnd, NULL, NULL, NULL);
-       TurnCounter = CreateWindowW(L"static", L"Whites's turn", WS_VISIBLE | WS_CHILD, 660, 120, 125, 23, hWnd, NULL, NULL, NULL);
+        CreateWindowW(L"static", L"Current Piece Held", WS_VISIBLE | WS_CHILD, 660, 80, 125, 23, hWnd, NULL, NULL, NULL);
+        TurnCounter = CreateWindowW(L"static", L"Whites's turn", WS_VISIBLE | WS_CHILD, 660, 120, 125, 23, hWnd, NULL, NULL, NULL);
 
 
         BlackRookImage = (HBITMAP)LoadImageW(NULL, L"images/rookpiece.bmp", IMAGE_BITMAP, 35, 45, LR_LOADFROMFILE);
@@ -314,12 +308,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                     boardTEMP[xPos][yPos] = boardTEMP[pieceX[i]][pieceY[i]];
                     boardTEMP[pieceX[i]][pieceY[i]] = blank;
                     if (!check(turnCount, boardTEMP)) {
-                        if ((board[pieceX[i]][pieceY[i]] == WPawn && pieceY[i] == 6 && yPos == 4) || board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 1 && yPos == 3) {
-                            EnpassantCheck = xPos;
-                        }
-                        else {
-                            EnpassantCheck = -1;
-                        }
                         board[xPos][yPos] = board[pieceX[i]][pieceY[i]];
                         board[pieceX[i]][pieceY[i]] = blank;
                         pieceX[i] = xPos;
@@ -331,6 +319,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                         if (board[pieceX[i]][pieceY[i]] == BPawn && pieceY[i] == 7) {
                             board[pieceX[i]][pieceY[i]] = BQueen;
                         }
+                        //Computer Move
+                        legal(board, whiteDanger, blackDanger);
+                        pieceTEMP = 0;
+                        for (int xcoord = 0; xcoord < 8; xcoord++) {//locate king in question
+                            for (int ycoord = 0; ycoord < 8; ycoord++) {
+                                if (board[xcoord][ycoord] != blank) {
+                                    pieceX[pieceTEMP] = xcoord;
+                                    pieceY[pieceTEMP] = ycoord;
+                                    pieceTEMP++;
+                                }
+                            }
+                        }
+                        while (pieceTEMP < 32) {
+                            pieceExist[pieceTEMP] = false;
+                            pieceTEMP++;
+                        }
+                        turnCount = !turnCount;
                     }
                 }
                 BoardReset = true;
@@ -339,7 +344,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //Selecting Piece
         for (int i = 0; i < 32; i++) {
             if (!BoardReset && iPosX > (pieceX[i] * 80 + 5) && iPosX < (pieceX[i] * 80 + 80) && iPosY >(pieceY[i] * 80 + 5) && iPosY < ((pieceY[i] * 80 + 80))) {
-                if ((turnCount && board[pieceX[i]][pieceY[i]] < 6) || (!turnCount && board[pieceX[i]][pieceY[i]] > 6)) {
+                if ((turnCount && board[pieceX[i]][pieceY[i]] < 6) /*|| (!turnCount && board[pieceX[i]][pieceY[i]] > 6)*/) {
                     BoardReset = true;
                     pieceSelect[i] = true;
                 }
@@ -593,17 +598,9 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
         break;
     case BPawn:
         result = movePawn(x, y, a, b, board1);
-        if (y == 4 && b == 5 && ((x - 1) == a || (x + 1) == a) && EnpassantCheck == a) {
-            result = true;
-            board[a][4] = blank;
-        }
         break;
     case WPawn:
         result = movePawn(x, y, a, b, board1);
-        if (y == 3 && b == 2 && ((x-1)==a || (x+1)==a) && EnpassantCheck == a) {
-            result = true;
-            board[a][3] = blank;
-        }
         break;
     case WKnight:
         result = moveKnight(x, y, a, b, board1);
@@ -620,21 +617,9 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
         break;
     case WRook:
         result = moveRook(x, y, a, b, board1);
-        if (result == true && x == 0 && y == 0) {
-            WRook1Moved = true;
-        }
-        if (result == true && x == 0 && y == 7) {
-            WRook2Moved = true;
-        }
         break;
     case BRook:
         result = moveRook(x, y, a, b, board1);
-        if (result == true && x == 7 && y == 0) {
-            BRook1Moved = true;
-        }
-        if (result == true && x == 7 && y == 7) {
-            BRook2Moved = true;
-        }
         break;
     case WQueen:
         result = moveBishop(x, y, a, b, board1);
@@ -652,51 +637,9 @@ bool chooseMove(int x, int y, int a, int b, int board1[][8]) {
         break;
     case WKing:
         result = moveKing(x, y, a, b, board1);
-        if (!WKingMoved && !WRook1Moved && a == 2 && b == 7 && board1[0][7] == WRook && board1[1][7] == blank && board1[2][7] == blank && board1[3][7] == blank) {
-            result = true;
-            for (int i = 0; i < 32; i++) {
-                if (pieceX[i] == 0 && pieceY[i] == 7) {
-                    pieceX[i] = 3;
-                    board[pieceX[i]][pieceY[i]] = WRook;
-                }
-            }
-        }
-        if (!WKingMoved && !WRook2Moved && a == 6 && b == 7 && board1[7][7] == WRook && board1[6][7] == blank && board1[5][7] == blank ) {
-            result = true;
-            for (int i = 0; i < 32; i++) {
-                if (pieceX[i] == 7 && pieceY[i] == 7) {
-                    pieceX[i] = 5;
-                    board[pieceX[i]][pieceY[i]] = WRook;
-                }
-            }
-        }
-        if (result == true) {
-            WKingMoved = true;
-        }
         break;
     case BKing:
         result = moveKing(x, y, a, b, board1);
-        if (!BKingMoved && !BRook1Moved && a == 2 && b == 0 && board1[0][0] == BRook && board1[1][0] == blank && board1[2][0] == blank && board1[3][0] == blank) {
-            result = true;
-            for (int i = 0; i < 32; i++) {
-                if (pieceX[i] == 0 && pieceY[i] == 0) {
-                    pieceX[i] = 3;
-                    board[pieceX[i]][pieceY[i]] = BRook;
-                }
-            }
-        }
-        if (!BKingMoved && !BRook2Moved && a == 6 && b == 0 && board1[7][0] == BRook && board1[6][0] == blank && board1[5][0] == blank) {
-            result = true;
-            for (int i = 0; i < 32; i++) {
-                if (pieceX[i] == 7 && pieceY[i] == 0) {
-                    pieceX[i] = 5;
-                    board[pieceX[i]][pieceY[i]] = BRook;
-                }
-            }
-        }
-        if (result == true) {
-            BKingMoved = true;
-        }
         break;
     }
     return result;
